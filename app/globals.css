@@ -1,0 +1,131 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4f4f1;
+  --foreground: #10110f;
+  --muted: #696b65;
+  --line: #d8d9d3;
+  --lime: #b6ff2e;
+  --purple: #7c5cff;
+  --orange: #ff6b35;
+}
+
+* {
+  box-sizing: border-box;
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 80% 2%, rgb(182 255 46 / 9%), transparent 23rem),
+    var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, sans-serif;
+}
+
+::selection {
+  background: var(--lime);
+  color: #10110f;
+}
+
+.font-display {
+  font-family: var(--font-space-grotesk), Arial, sans-serif;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin-inline: auto;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #575a53;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.eyebrow::before {
+  width: 1.5rem;
+  height: 2px;
+  background: currentColor;
+  content: "";
+}
+
+.grid-noise {
+  background-image:
+    linear-gradient(rgb(255 255 255 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(255 255 255 / 5%) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+.controller-orbit::before,
+.controller-orbit::after {
+  position: absolute;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 999px;
+  content: "";
+  inset: 11%;
+}
+
+.controller-orbit::after {
+  border-color: rgb(182 255 46 / 28%);
+  inset: 23%;
+}
+
+.card-lift {
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 35px rgb(16 17 15 / 8%);
+}
+
+.field {
+  width: 100%;
+  border: 1px solid #d5d6d0;
+  border-radius: 0.75rem;
+  background: #fff;
+  padding: 0.8rem 0.9rem;
+  color: #161713;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.field:focus {
+  border-color: #81847b;
+  box-shadow: 0 0 0 3px rgb(124 92 255 / 11%);
+}
+
+.field::placeholder {
+  color: #999b95;
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 1.25rem, 1180px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
