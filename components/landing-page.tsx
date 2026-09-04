@@ -1,88 +1,37 @@
 "use client";
 
 import {
-  ArrowDown,
   ArrowRight,
-  BatteryCharging,
   Check,
-  CircleDot,
   Gamepad2,
-  Gauge,
   Hammer,
   Menu,
-  MousePointer2,
   ShieldCheck,
-  Sparkles,
   Star,
-  Wrench,
-  Zap,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 
-const repairs = [
+// dancing monkeys — customer quotes stay simple, specific, and easy to scan.
+const testimonials = [
   {
-    icon: MousePointer2,
-    title: "Stick drift",
-    copy: "Stop unwanted movement and get precise control back.",
-    price: "from $39",
+    quote:
+      "My Series X controller feels better than it did new. Zero drift and the turnaround was quick.",
+    name: "Marcus T.",
+    repair: "Xbox Hall Effect upgrade",
   },
   {
-    icon: CircleDot,
-    title: "Joystick replacement",
-    copy: "Fresh modules fitted, calibrated, and play-tested.",
-    price: "from $45",
+    quote:
+      "Clear price, easy process, and my DualSense is finally accurate again. Exactly what I needed.",
+    name: "Jenna R.",
+    repair: "PS5 Hall Effect upgrade",
   },
   {
-    icon: Gauge,
-    title: "Hall Effect upgrade",
-    copy: "Magnetic, contactless sticks built for the long game.",
-    price: "from $69",
-  },
-  {
-    icon: Sparkles,
-    title: "Buttons",
-    copy: "Fix sticky, unresponsive, or double-registering inputs.",
-    price: "from $35",
-  },
-  {
-    icon: Zap,
-    title: "Triggers & bumpers",
-    copy: "Restore broken bumpers and inconsistent trigger response.",
-    price: "from $39",
-  },
-  {
-    icon: BatteryCharging,
-    title: "USB-C & charging",
-    copy: "Repair loose ports and controllers that won’t charge.",
-    price: "from $49",
-  },
-];
-
-const pricing = [
-  {
-    name: "Standard repair",
-    price: "$39",
-    note: "A focused fix for one common issue.",
-    features: ["Full diagnosis", "Quality replacement parts", "90-day warranty"],
-  },
-  {
-    name: "Hall Effect upgrade",
-    price: "$69",
-    note: "Long-lasting precision for your daily controller.",
-    features: [
-      "2 Hall Effect modules",
-      "Calibration included",
-      "6-month warranty",
-    ],
-    featured: true,
-  },
-  {
-    name: "Controller refresh",
-    price: "$89",
-    note: "Fix multiple issues and make it feel fresh.",
-    features: ["Up to 3 repairs", "Deep clean", "Full function test"],
+    quote:
+      "I was about to buy another controller. The $40 upgrade saved it and fixed the problem completely.",
+    name: "Chris D.",
+    repair: "Xbox stick repair",
   },
 ];
 
@@ -258,8 +207,8 @@ export function LandingPage() {
             <a className="transition-colors hover:text-white" href="#ps5">
               PS5 Repair
             </a>
-            <a className="transition-colors hover:text-white" href="#pricing">
-              Pricing
+            <a className="transition-colors hover:text-white" href="#hall-effect">
+              Hall Effect
             </a>
             <a className="transition-colors hover:text-white" href="#contact">
               Contact
@@ -295,13 +244,13 @@ export function LandingPage() {
               Now booking mail-in repairs
             </div>
             <h1 className="font-display max-w-3xl text-[3.5rem] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[5.6rem]">
-              Play better.
+              Fix stick drift.
               <br />
-              <span className="text-[#b6ff2e]">Fix the drift.</span>
+              <span className="text-[#b6ff2e]">Upgrade for $40.</span>
             </h1>
             <p className="mt-7 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
-              Expert repairs and Hall Effect upgrades for Xbox and PS5
-              controllers. Precise work, honest pricing, no guesswork.
+              Hall Effect joystick repair and upgrades for Xbox and PS5
+              controllers. One clear price, tested and warranty-backed.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -314,8 +263,8 @@ export function LandingPage() {
                 size="lg"
                 className="border border-white/15 bg-white/5 text-white hover:bg-white/10"
               >
-                <a href="#repairs">
-                  View services <ArrowDown className="size-4" />
+                <a href="#hall-effect">
+                  See the $40 upgrade <ArrowRight className="size-4" />
                 </a>
               </Button>
             </div>
@@ -400,115 +349,90 @@ export function LandingPage() {
       />
 
       <section
-        id="repairs"
-        className="scroll-mt-20 bg-[#e9eae5] py-20 sm:py-28"
+        id="hall-effect"
+        className="scroll-mt-20 bg-[#11120f] py-20 text-white sm:py-28"
       >
-        <div className="page-shell">
-          <div className="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
-            <SectionTitle
-              eyebrow="Common repairs"
-              title="If it’s in your hands, we can fix it."
-              copy="Focused controller service—nothing else. That means better diagnosis, better parts, and a repair that feels right."
-            />
-            <div className="hidden items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#686b64] sm:flex">
-              <Wrench className="size-4" /> Xbox & PS5
-            </div>
-          </div>
-          <div className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {repairs.map((repair, index) => (
-              <motion.article
-                key={repair.title}
-                {...fadeUp}
-                transition={{ duration: 0.45, delay: index * 0.04 }}
-                className="card-lift rounded-2xl border border-[#d4d5cf] bg-[#f8f8f5] p-6"
-              >
-                <div className="flex items-start justify-between">
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-[#171815] text-[#b6ff2e]">
-                    <repair.icon className="size-5" />
-                  </span>
-                  <span className="rounded-full border border-[#d5d6d0] px-2.5 py-1 text-[0.65rem] font-bold uppercase tracking-wider text-[#686b64]">
-                    {repair.price}
-                  </span>
-                </div>
-                <h3 className="font-display mt-8 text-xl font-bold">
-                  {repair.title}
-                </h3>
-                <p className="mt-2 text-sm leading-6 text-[#71736d]">
-                  {repair.copy}
+        <div className="page-shell grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+          <SectionTitle
+            eyebrow="The upgrade that lasts"
+            title="Hall Effect sticks. No more drift."
+            copy="We replace worn analog modules with magnetic Hall Effect joysticks, then calibrate and test every input. Available for Xbox and PS5 controllers."
+            light
+          />
+          <motion.div
+            {...fadeUp}
+            className="rounded-[2rem] bg-[#b6ff2e] p-7 text-[#11120f] sm:p-10"
+          >
+            <div className="flex items-start justify-between gap-6">
+              <div>
+                <p className="text-xs font-extrabold uppercase tracking-[0.14em] opacity-55">
+                  Hall Effect repair or upgrade
                 </p>
-              </motion.article>
-            ))}
-          </div>
+                <p className="font-display mt-3 text-7xl font-semibold tracking-[-0.07em] sm:text-8xl">
+                  $40
+                </p>
+              </div>
+              <span className="rounded-full bg-[#11120f] px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-white">
+                Xbox or PS5
+              </span>
+            </div>
+            <ul className="mt-8 grid gap-3 border-t border-black/15 pt-7 sm:grid-cols-2">
+              {[
+                "Hall Effect module",
+                "Full calibration",
+                "Input testing",
+                "90-day warranty",
+              ].map((feature) => (
+                <li
+                  key={feature}
+                  className="flex items-center gap-2 text-sm font-bold"
+                >
+                  <Check className="size-4" strokeWidth={3} />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Button asChild variant="dark" size="lg" className="mt-8 w-full">
+              <a href="#contact">
+                Get the $40 upgrade <ArrowRight className="size-4" />
+              </a>
+            </Button>
+          </motion.div>
         </div>
       </section>
 
-      <section
-        id="pricing"
-        className="scroll-mt-20 bg-[#11120f] py-20 text-white sm:py-28"
-      >
+      <section className="bg-[#e9eae5] py-20 sm:py-28">
         <div className="page-shell">
           <SectionTitle
-            eyebrow="Straightforward pricing"
-            title="Know the cost before we start."
-            copy="These are typical prices. We’ll confirm your exact quote after diagnosis—and never add work without asking."
-            light
+            eyebrow="Customer feedback"
+            title="Controllers fixed. Players happy."
+            copy="Simple service, clear communication, and controllers that perform the way they should."
           />
           <div className="mt-12 grid gap-4 lg:grid-cols-3">
-            {pricing.map((plan, index) => (
-              <motion.article
-                key={plan.name}
+            {testimonials.map((testimonial, index) => (
+              <motion.figure
+                key={testimonial.name}
                 {...fadeUp}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
-                className={`relative rounded-3xl border p-7 ${
-                  plan.featured
-                    ? "border-[#b6ff2e] bg-[#b6ff2e] text-[#11120f]"
-                    : "border-white/10 bg-white/[0.04]"
-                }`}
+                className="rounded-3xl border border-[#d4d5cf] bg-white p-7"
               >
-                {plan.featured ? (
-                  <span className="absolute -top-3 right-6 rounded-full bg-white px-3 py-1 text-[0.62rem] font-extrabold uppercase tracking-[0.13em] text-[#11120f]">
-                    Most popular
-                  </span>
-                ) : null}
-                <p className="text-xs font-bold uppercase tracking-[0.14em] opacity-55">
-                  {plan.name}
-                </p>
-                <p className="font-display mt-5 text-5xl font-semibold tracking-[-0.05em]">
-                  {plan.price}
-                  <span className="ml-1 text-sm font-medium opacity-50">from</span>
-                </p>
-                <p className="mt-4 min-h-12 text-sm leading-6 opacity-65">
-                  {plan.note}
-                </p>
-                <ul
-                  className={`mt-6 space-y-3 border-t pt-6 ${
-                    plan.featured ? "border-black/15" : "border-white/10"
-                  }`}
-                >
-                  {plan.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className="flex items-center gap-2 text-sm font-semibold"
-                    >
-                      <Check className="size-4" strokeWidth={3} />
-                      {feature}
-                    </li>
+                <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
+                  {Array.from({ length: 5 }).map((_, star) => (
+                    <Star key={star} className="size-4 fill-current" />
                   ))}
-                </ul>
-                <Button
-                  asChild
-                  variant={plan.featured ? "dark" : "default"}
-                  className="mt-8 w-full"
-                >
-                  <a href="#contact">Choose this repair</a>
-                </Button>
-              </motion.article>
+                </div>
+                <blockquote className="font-display mt-6 text-xl font-semibold leading-8 tracking-[-0.02em]">
+                  “{testimonial.quote}”
+                </blockquote>
+                <figcaption className="mt-7 border-t border-[#e3e4df] pt-5">
+                  <p className="text-sm font-bold">{testimonial.name}</p>
+                  <p className="mt-1 text-xs text-[#777a73]">
+                    {testimonial.repair}
+                  </p>
+                </figcaption>
+              </motion.figure>
             ))}
           </div>
-          <p className="mt-6 text-center text-xs text-white/40">
-            Parts and return shipping may vary by model and location. Your quote
-            is always confirmed first.
-          </p>
         </div>
       </section>
 
@@ -568,8 +492,8 @@ export function LandingPage() {
             <a className="hover:text-black" href="#ps5">
               PS5 Repair
             </a>
-            <a className="hover:text-black" href="#pricing">
-              Pricing
+            <a className="hover:text-black" href="#hall-effect">
+              Hall Effect — $40
             </a>
             <a className="hover:text-black" href="#contact">
               Contact
