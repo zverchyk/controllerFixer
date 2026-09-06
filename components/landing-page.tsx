@@ -9,54 +9,21 @@ import {
   Menu,
   Play,
   ShieldCheck,
-  Star,
   Truck,
   X,
 } from "lucide-react";
 import { motion } from "motion/react";
+import {
+  FeedbackCard,
+  type FeedbackCardVariant,
+} from "@/components/feedback-card";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
+import { testimonials } from "@/lib/testimonials";
 
-// dancing monkeys — customer quotes stay simple, specific, and easy to scan.
-const testimonials = [
-  {
-    quote:
-      "My Series X controller feels better than it did new. Zero drift and the turnaround was quick.",
-    name: "Marcus T.",
-    repair: "Xbox Hall Effect upgrade",
-  },
-  {
-    quote:
-      "Clear price, easy process, and my DualSense is finally accurate again. Exactly what I needed.",
-    name: "Jenna R.",
-    repair: "PS5 Hall Effect upgrade",
-  },
-  {
-    quote:
-      "I was about to buy another controller. The $40 upgrade saved it and fixed the problem completely.",
-    name: "Chris D.",
-    repair: "Xbox stick repair",
-  },
-  {
-    quote:
-      "Fast, friendly, and much cheaper than replacing my controller. The sticks feel smooth and precise again.",
-    name: "Taylor M.",
-    repair: "DualSense stick repair",
-  },
-  {
-    quote:
-      "The pickup option made everything easy. My Elite controller was fixed and back in my hands the same day.",
-    name: "Devon K.",
-    repair: "Xbox Elite repair",
-  },
-  {
-    quote:
-      "I play every night and the Hall Effect upgrade has been rock solid. No drift and no dead-zone problems.",
-    name: "Sam P.",
-    repair: "PS5 Hall Effect upgrade",
-  },
-];
+// Swap this number (1-6) to change the feedback card design site-wide.
+const FEEDBACK_CARD_VARIANT: FeedbackCardVariant = 3;
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -595,22 +562,10 @@ export function LandingPage() {
           autoAdvanceMs={5000}
           className="mt-12"
           renderItem={(testimonial) => (
-            <figure className="h-full rounded-3xl border border-[#d4d5cf] bg-white p-7">
-              <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
-                {Array.from({ length: 5 }).map((_, star) => (
-                  <Star key={star} className="size-4 fill-current" />
-                ))}
-              </div>
-              <blockquote className="font-display mt-6 text-xl font-semibold leading-8 tracking-[-0.02em]">
-                “{testimonial.quote}”
-              </blockquote>
-              <figcaption className="mt-7 border-t border-[#e3e4df] pt-5">
-                <p className="text-sm font-bold">{testimonial.name}</p>
-                <p className="mt-1 text-xs text-[#777a73]">
-                  {testimonial.repair}
-                </p>
-              </figcaption>
-            </figure>
+            <FeedbackCard
+              testimonial={testimonial}
+              variant={FEEDBACK_CARD_VARIANT}
+            />
           )}
         />
       </section>
