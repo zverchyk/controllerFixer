@@ -102,7 +102,7 @@ export function HorizontalScroller({
       aria-label={label}
       tabIndex={0}
       className={cn(
-        "no-scrollbar -mx-4 flex snap-x snap-proximity gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain scroll-px-4 px-4 sm:-mx-6 sm:scroll-px-6 sm:px-6",
+        "no-scrollbar -mx-4 flex gap-4 overflow-x-auto overflow-y-hidden overscroll-x-contain px-4 sm:-mx-6 sm:px-6",
         "cursor-grab data-[dragging=true]:cursor-grabbing data-[dragging=true]:select-none",
         className,
       )}

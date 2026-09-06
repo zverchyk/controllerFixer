@@ -628,7 +628,7 @@ export function LandingPage() {
             {testimonials.map((testimonial) => (
               <figure
                 key={testimonial.name}
-                className="w-[86%] shrink-0 snap-start rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:w-[430px] lg:w-[470px]"
+                className="w-[86%] shrink-0 rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:w-[430px] lg:w-[470px]"
               >
                 <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, star) => (
