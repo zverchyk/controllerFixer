@@ -1,9 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import {
   ArrowRight,
   Camera,
   Check,
+  ChevronLeft,
+  ChevronRight,
   Gamepad2,
   MapPin,
   Menu,
@@ -142,24 +145,38 @@ function PlatformSection({
   services: string[];
   reverse?: boolean;
 }) {
+  const isXbox = platform === "xbox";
   const accent = platform === "xbox" ? "#b6ff2e" : "#7c5cff";
 
   return (
-    <section id={id} className="scroll-mt-20 py-14 sm:py-24">
+    <section
+      id={id}
+      className={`scroll-mt-20 ${
+        isXbox ? "bg-[#e7f6da] py-14 sm:py-20" : "py-12 sm:py-16"
+      }`}
+    >
       <div
-        className={`page-shell grid items-center gap-10 lg:grid-cols-2 lg:gap-20 ${
+        className={`page-shell grid items-center gap-10 lg:grid-cols-2 ${
+          isXbox
+            ? "lg:gap-20"
+            : "rounded-[2.5rem] bg-[#7256ec] p-6 text-white sm:p-10 lg:gap-14 lg:p-14"
+        } ${
           reverse ? "lg:[&>*:first-child]:order-2" : ""
         }`}
       >
         <ControllerVisual platform={platform} accent={accent} />
         <motion.div {...fadeUp}>
-          <span className="eyebrow">
+          <span className={`eyebrow ${isXbox ? "" : "text-white/60"}`}>
             {platform === "xbox" ? "Xbox repair" : "PlayStation 5 repair"}
           </span>
           <h2 className="font-display mt-4 text-4xl font-semibold leading-[1.04] tracking-[-0.04em] sm:text-5xl">
             {title}
           </h2>
-          <p className="mt-5 max-w-xl text-base leading-7 text-[#686b64]">
+          <p
+            className={`mt-5 max-w-xl text-base leading-7 ${
+              isXbox ? "text-[#5e6259]" : "text-white/65"
+            }`}
+          >
             {copy}
           </p>
           <ul className="mt-7 grid gap-3 sm:grid-cols-2">
@@ -169,8 +186,9 @@ function PlatformSection({
                 className="flex items-center gap-2.5 text-sm font-semibold"
               >
                 <span
-                  className="flex size-6 items-center justify-center rounded-full"
-                  style={{ background: accent }}
+                  className={`flex size-6 items-center justify-center rounded-full ${
+                    isXbox ? "bg-[#b6ff2e]" : "bg-white text-[#7256ec]"
+                  }`}
                 >
                   <Check className="size-3.5" strokeWidth={3} />
                 </span>
@@ -178,7 +196,7 @@ function PlatformSection({
               </li>
             ))}
           </ul>
-          <Button asChild variant="dark" className="mt-8">
+          <Button asChild variant={isXbox ? "dark" : "default"} className="mt-8">
             <a href="#contact">
               Repair my {platform === "xbox" ? "Xbox" : "PS5"} controller
               <ArrowRight className="size-4" />
@@ -191,6 +209,15 @@ function PlatformSection({
 }
 
 export function LandingPage() {
+  const feedbackRef = useRef<HTMLDivElement>(null);
+
+  function scrollFeedback(direction: "left" | "right") {
+    feedbackRef.current?.scrollBy({
+      left: direction === "left" ? -430 : 430,
+      behavior: "smooth",
+    });
+  }
+
   return (
     <main className="overflow-hidden">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -243,9 +270,9 @@ export function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65 }}
           >
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-bold text-white/70 backdrop-blur">
-              <span className="size-2 rounded-full bg-[#b6ff2e] shadow-[0_0_14px_#b6ff2e]" />
-              Professional stick drift repair in the city of Vancouver
+            <div className="mb-6 inline-flex max-w-xl items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base font-bold leading-5 text-white backdrop-blur sm:text-lg">
+              <span className="size-2.5 shrink-0 rounded-full bg-[#b6ff2e] shadow-[0_0_14px_#b6ff2e]" />
+              Expert Controller Stick Drift Repair in Vancouver
             </div>
             <h1 className="font-display max-w-3xl text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[5.15rem]">
               Say goodbye to
@@ -352,18 +379,30 @@ export function LandingPage() {
         reverse
       />
 
-      <section
-        className="border-y border-[#d9dad4] bg-[#b6ff2e] py-9"
-      >
-        <p className="page-shell font-display text-center text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
-          No need to buy a new controller just because the old one has stick
-          drift.
+      <section className="overflow-hidden border-y border-[#d9dad4] bg-[#b6ff2e] py-7">
+        <p className="sr-only">
+          Stick drift doesn’t mean you need a new controller.
         </p>
+        <div className="marquee-track" aria-hidden="true">
+          {[0, 1].map((group) => (
+            <div key={group} className="marquee-group">
+              {Array.from({ length: 4 }).map((_, item) => (
+                <span
+                  key={item}
+                  className="font-display flex items-center gap-8 whitespace-nowrap px-4 text-2xl font-semibold tracking-[-0.035em] sm:text-3xl"
+                >
+                  Stick drift doesn’t mean you need a new controller.
+                  <span className="size-2.5 rounded-full bg-[#11120f]" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
       </section>
 
       <section
         id="choose"
-        className="scroll-mt-20 bg-[#0c0d0b] py-20 text-white sm:py-28"
+        className="scroll-mt-20 bg-[#0c0d0b] py-10 text-white"
       >
         <div className="page-shell">
           <div className="mx-auto max-w-3xl text-center">
@@ -528,18 +567,41 @@ export function LandingPage() {
 
       <section className="bg-[#e9eae5] py-20 sm:py-28">
         <div className="page-shell">
-          <SectionTitle
-            eyebrow="Customer feedback"
-            title="Controllers fixed. Players happy."
-            copy="Simple service, clear communication, and controllers that perform the way they should."
-          />
-          <div className="mt-12 grid gap-4 lg:grid-cols-3">
+          <div className="flex items-end justify-between gap-6">
+            <SectionTitle
+              eyebrow="Customer feedback"
+              title="Controllers fixed. Players happy."
+              copy="Simple service, clear communication, and controllers that perform the way they should."
+            />
+            <div className="hidden shrink-0 gap-2 sm:flex">
+              <button
+                type="button"
+                onClick={() => scrollFeedback("left")}
+                aria-label="Scroll feedback left"
+                className="flex size-11 items-center justify-center rounded-full border border-[#cfd0ca] bg-white transition-colors hover:bg-[#b6ff2e]"
+              >
+                <ChevronLeft className="size-5" />
+              </button>
+              <button
+                type="button"
+                onClick={() => scrollFeedback("right")}
+                aria-label="Scroll feedback right"
+                className="flex size-11 items-center justify-center rounded-full border border-[#cfd0ca] bg-white transition-colors hover:bg-[#b6ff2e]"
+              >
+                <ChevronRight className="size-5" />
+              </button>
+            </div>
+          </div>
+          <div
+            ref={feedbackRef}
+            className="scrollbar-hide -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3"
+          >
             {testimonials.map((testimonial, index) => (
               <motion.figure
                 key={testimonial.name}
                 {...fadeUp}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
-                className="rounded-3xl border border-[#d4d5cf] bg-white p-7"
+                className="min-w-[86%] snap-start rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:min-w-[430px] lg:min-w-[470px]"
               >
                 <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, star) => (
@@ -561,7 +623,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="py-20 sm:py-28">
+      <section className="py-14 sm:py-16">
         <div className="page-shell">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <SectionTitle
@@ -574,7 +636,7 @@ export function LandingPage() {
               Gallery
             </span>
           </div>
-          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3">
+          <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-3">
             {[
               "Xbox Series repair",
               "DualSense upgrade",
@@ -587,7 +649,7 @@ export function LandingPage() {
                 key={label}
                 {...fadeUp}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="flex min-h-44 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-5 text-center sm:min-h-64"
+                className="flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center sm:min-h-44"
               >
                 <div className="text-[#777a73]">
                   <Camera className="mx-auto size-7" strokeWidth={1.5} />
@@ -602,18 +664,18 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="contact" className="scroll-mt-10 py-20 sm:py-28">
+      <section id="contact" className="scroll-mt-10 py-10 sm:py-12">
         <div className="page-shell">
           <SectionTitle
             eyebrow="Book your repair"
             title="Drop it off or we’ll come to you."
             copy="Tell us what’s wrong and choose the option that works for you. Most stick drift repairs are completed the same day."
           />
-          <div className="mt-10 grid overflow-hidden rounded-[2rem] bg-white shadow-[0_28px_80px_rgb(16_17_15/0.09)] lg:grid-cols-[1.08fr_0.92fr]">
+          <div className="mt-7 grid overflow-hidden rounded-[2rem] bg-white shadow-[0_28px_80px_rgb(16_17_15/0.09)] lg:grid-cols-[1.08fr_0.92fr]">
             <div className="p-2 sm:p-3">
               <RepairForm />
             </div>
-            <div className="relative min-h-[440px] overflow-hidden bg-[#171815] lg:min-h-full">
+            <div className="relative min-h-[360px] overflow-hidden bg-[#171815] lg:min-h-full">
               <iframe
                 title="StickLab service area in Vancouver"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-123.18%2C49.24%2C-123.04%2C49.30&layer=mapnik&marker=49.2827%2C-123.1207"
@@ -666,7 +728,7 @@ export function LandingPage() {
             </a>
           </div>
           <p className="text-xs text-[#969891]">
-            © {new Date().getFullYear()} StickLab
+            Part of Zverchyk Tech
           </p>
         </div>
       </footer>

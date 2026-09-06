@@ -80,12 +80,12 @@ export function RepairForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="rounded-3xl bg-[#f7f7f4] p-5 sm:p-7"
+      className="rounded-3xl bg-[#f7f7f4] p-4 sm:p-5"
       noValidate
     >
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Your name
           </span>
           <input
@@ -97,7 +97,7 @@ export function RepairForm() {
           {errorText(errors.name?.message)}
         </label>
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Email address
           </span>
           <input
@@ -110,7 +110,7 @@ export function RepairForm() {
           {errorText(errors.email?.message)}
         </label>
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Phone <span className="font-normal normal-case">(optional)</span>
           </span>
           <input
@@ -123,7 +123,7 @@ export function RepairForm() {
           {errorText(errors.phone?.message)}
         </label>
         <label className="block">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Controller
           </span>
           <select className="field appearance-none" {...register("controller")}>
@@ -134,7 +134,7 @@ export function RepairForm() {
           {errorText(errors.controller?.message)}
         </label>
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             What needs fixing?
           </span>
           <select className="field appearance-none" {...register("service")}>
@@ -147,7 +147,7 @@ export function RepairForm() {
           {errorText(errors.service?.message)}
         </label>
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Drop-off or pickup?
           </span>
           <select
@@ -159,18 +159,18 @@ export function RepairForm() {
               Pickup & drop-off — distance fee after 2 km
             </option>
           </select>
-          <p className="mt-1.5 text-xs leading-5 text-[#777a73]">
+          <p className="mt-1 text-xs leading-4 text-[#777a73]">
             Pickup and return is available around Vancouver. The extra fee is
             based on travel distance beyond 2 km.
           </p>
           {errorText(errors.fulfillment?.message)}
         </label>
         <label className="block sm:col-span-2">
-          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Tell us what’s happening
           </span>
           <textarea
-            className="field min-h-28 resize-y"
+            className="field min-h-20 resize-y"
             placeholder="For example: the left stick pulls upward and the controller is out of warranty..."
             {...register("details")}
           />
@@ -178,7 +178,7 @@ export function RepairForm() {
         </label>
       </div>
 
-      <div className="mt-5 overflow-hidden">
+      <div className="mt-3 overflow-hidden">
         <Turnstile
           sitekey={
             process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ??
@@ -212,7 +212,7 @@ export function RepairForm() {
         </p>
       ) : null}
 
-      <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-xs text-xs leading-5 text-[#73756f]">
           No payment required. We’ll confirm the repair and price before you
           send anything.
