@@ -159,13 +159,13 @@ export function FeedbackCarousel<T>({
         pausedRef.current = false;
       }}
       className={cn(
-        "relative left-1/2 w-screen -translate-x-1/2 cursor-grab overflow-hidden py-2 outline-none",
+        "relative left-1/2 flex w-screen -translate-x-1/2 cursor-grab justify-center overflow-hidden py-6 outline-none",
         className,
       )}
     >
       <motion.div
         ref={trackRef}
-        className="mx-auto flex w-max items-stretch gap-4 sm:gap-6"
+        className="flex w-max shrink-0 items-stretch gap-4 sm:gap-6"
         animate={{ x: -direction * step }}
         transition={
           direction === 0
@@ -179,8 +179,8 @@ export function FeedbackCarousel<T>({
             key={slot}
             aria-hidden={!focused}
             className={cn(
-              "carousel-card shrink-0 transition-all duration-300",
-              focused ? "opacity-100" : "scale-[0.94] opacity-45",
+              "carousel-card shrink-0 origin-center transition-all duration-300",
+              focused ? "scale-[1.04] opacity-100" : "scale-[0.88] opacity-45",
             )}
           >
             {renderItem(item, focused)}
