@@ -79,6 +79,7 @@ body {
 }
 
 .feedback-scroll {
+  overscroll-behavior: contain;
   scrollbar-color: #7c5cff #d8d9d3;
   scrollbar-width: thin;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type WheelEvent } from "react";
+import { useEffect, useRef } from "react";
 import {
   ArrowRight,
   Camera,
@@ -229,27 +229,28 @@ function PlatformSection({
 export function LandingPage() {
   const feedbackRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    const scroller = feedbackRef.current;
+    if (!scroller) return;
+
+    const handleWheel = (event: WheelEvent) => {
+      event.preventDefault();
+      const distance =
+        Math.abs(event.deltaY) >= Math.abs(event.deltaX)
+          ? event.deltaY
+          : event.deltaX;
+      scroller.scrollLeft += distance;
+    };
+
+    scroller.addEventListener("wheel", handleWheel, { passive: false });
+    return () => scroller.removeEventListener("wheel", handleWheel);
+  }, []);
+
   function scrollFeedback(direction: "left" | "right") {
     feedbackRef.current?.scrollBy({
       left: direction === "left" ? -430 : 430,
       behavior: "smooth",
     });
-  }
-
-  function handleFeedbackWheel(event: WheelEvent<HTMLDivElement>) {
-    const scroller = feedbackRef.current;
-    if (!scroller || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-
-    const movingRight = event.deltaY > 0;
-    const canMove =
-      movingRight
-        ? scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth
-        : scroller.scrollLeft > 0;
-
-    if (canMove) {
-      event.preventDefault();
-      scroller.scrollLeft += event.deltaY;
-    }
   }
 
   return (
@@ -637,7 +638,6 @@ export function LandingPage() {
           </div>
           <div
             ref={feedbackRef}
-            onWheel={handleFeedbackWheel}
             className="feedback-scroll -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5"
           >
             {testimonials.map((testimonial, index) => (
