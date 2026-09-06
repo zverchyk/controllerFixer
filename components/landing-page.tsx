@@ -14,7 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { motion } from "motion/react";
-import { HorizontalScroller } from "@/components/horizontal-scroller";
+import { FeedbackCarousel } from "@/components/feedback-carousel";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 
@@ -588,36 +588,31 @@ export function LandingPage() {
             title="Controllers fixed. Players happy."
             copy="Simple service, clear communication, and controllers that perform the way they should."
           />
-          <HorizontalScroller
-            label="Customer feedback"
-            className="mt-12 pb-2"
-            autoAdvanceMs={5000}
-            loop
-          >
-            {[...testimonials, ...testimonials].map((testimonial, index) => (
-              <figure
-                key={`${testimonial.name}-${index}`}
-                aria-hidden={index >= testimonials.length}
-                className="w-[86%] shrink-0 rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:w-[430px] lg:w-[470px]"
-              >
-                <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
-                  {Array.from({ length: 5 }).map((_, star) => (
-                    <Star key={star} className="size-4 fill-current" />
-                  ))}
-                </div>
-                <blockquote className="font-display mt-6 text-xl font-semibold leading-8 tracking-[-0.02em]">
-                  “{testimonial.quote}”
-                </blockquote>
-                <figcaption className="mt-7 border-t border-[#e3e4df] pt-5">
-                  <p className="text-sm font-bold">{testimonial.name}</p>
-                  <p className="mt-1 text-xs text-[#777a73]">
-                    {testimonial.repair}
-                  </p>
-                </figcaption>
-              </figure>
-            ))}
-          </HorizontalScroller>
         </div>
+        <FeedbackCarousel
+          items={testimonials}
+          label="Customer feedback"
+          autoAdvanceMs={5000}
+          className="mt-12"
+          renderItem={(testimonial) => (
+            <figure className="h-full rounded-3xl border border-[#d4d5cf] bg-white p-7">
+              <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
+                {Array.from({ length: 5 }).map((_, star) => (
+                  <Star key={star} className="size-4 fill-current" />
+                ))}
+              </div>
+              <blockquote className="font-display mt-6 text-xl font-semibold leading-8 tracking-[-0.02em]">
+                “{testimonial.quote}”
+              </blockquote>
+              <figcaption className="mt-7 border-t border-[#e3e4df] pt-5">
+                <p className="text-sm font-bold">{testimonial.name}</p>
+                <p className="mt-1 text-xs text-[#777a73]">
+                  {testimonial.repair}
+                </p>
+              </figcaption>
+            </figure>
+          )}
+        />
       </section>
 
       <section className="py-[106px] sm:py-[114px]">

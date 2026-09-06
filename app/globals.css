@@ -78,14 +78,20 @@ body {
   flex-shrink: 0;
 }
 
-.no-scrollbar {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+.carousel-card {
+  width: min(78vw, 330px);
 }
 
-.no-scrollbar::-webkit-scrollbar {
-  width: 0;
-  height: 0;
+@media (min-width: 640px) {
+  .carousel-card {
+    width: 420px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .carousel-card {
+    width: 470px;
+  }
 }
 
 @keyframes marquee {
