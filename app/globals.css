@@ -78,24 +78,14 @@ body {
   flex-shrink: 0;
 }
 
-.feedback-scroll {
-  overscroll-behavior: contain;
-  scrollbar-color: #7c5cff #d8d9d3;
-  scrollbar-width: thin;
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
-.feedback-scroll::-webkit-scrollbar {
-  height: 8px;
-}
-
-.feedback-scroll::-webkit-scrollbar-track {
-  border-radius: 999px;
-  background: #d8d9d3;
-}
-
-.feedback-scroll::-webkit-scrollbar-thumb {
-  border-radius: 999px;
-  background: #7c5cff;
+.no-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
 }
 
 @keyframes marquee {

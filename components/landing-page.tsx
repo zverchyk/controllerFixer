@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import {
   ArrowRight,
   Camera,
@@ -17,6 +17,7 @@ import {
   X,
 } from "lucide-react";
 import { motion } from "motion/react";
+import { HorizontalScroller } from "@/components/horizontal-scroller";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 
@@ -228,23 +229,6 @@ function PlatformSection({
 
 export function LandingPage() {
   const feedbackRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const scroller = feedbackRef.current;
-    if (!scroller) return;
-
-    const handleWheel = (event: WheelEvent) => {
-      event.preventDefault();
-      const distance =
-        Math.abs(event.deltaY) >= Math.abs(event.deltaX)
-          ? event.deltaY
-          : event.deltaX;
-      scroller.scrollLeft += distance;
-    };
-
-    scroller.addEventListener("wheel", handleWheel, { passive: false });
-    return () => scroller.removeEventListener("wheel", handleWheel);
-  }, []);
 
   function scrollFeedback(direction: "left" | "right") {
     feedbackRef.current?.scrollBy({
@@ -636,16 +620,15 @@ export function LandingPage() {
               </button>
             </div>
           </div>
-          <div
-            ref={feedbackRef}
-            className="feedback-scroll -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5"
+          <HorizontalScroller
+            scrollerRef={feedbackRef}
+            label="Customer feedback"
+            className="mt-12 pb-2"
           >
-            {testimonials.map((testimonial, index) => (
-              <motion.figure
+            {testimonials.map((testimonial) => (
+              <figure
                 key={testimonial.name}
-                {...fadeUp}
-                transition={{ duration: 0.45, delay: index * 0.06 }}
-                className="min-w-[86%] snap-start rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:min-w-[430px] lg:min-w-[470px]"
+                className="w-[86%] shrink-0 snap-start rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:w-[430px] lg:w-[470px]"
               >
                 <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
                   {Array.from({ length: 5 }).map((_, star) => (
@@ -661,9 +644,9 @@ export function LandingPage() {
                     {testimonial.repair}
                   </p>
                 </figcaption>
-              </motion.figure>
+              </figure>
             ))}
-          </div>
+          </HorizontalScroller>
         </div>
       </section>
 
