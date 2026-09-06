@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type WheelEvent } from "react";
 import {
   ArrowRight,
   Camera,
@@ -39,6 +39,24 @@ const testimonials = [
       "I was about to buy another controller. The $40 upgrade saved it and fixed the problem completely.",
     name: "Chris D.",
     repair: "Xbox stick repair",
+  },
+  {
+    quote:
+      "Fast, friendly, and much cheaper than replacing my controller. The sticks feel smooth and precise again.",
+    name: "Taylor M.",
+    repair: "DualSense stick repair",
+  },
+  {
+    quote:
+      "The pickup option made everything easy. My Elite controller was fixed and back in my hands the same day.",
+    name: "Devon K.",
+    repair: "Xbox Elite repair",
+  },
+  {
+    quote:
+      "I play every night and the Hall Effect upgrade has been rock solid. No drift and no dead-zone problems.",
+    name: "Sam P.",
+    repair: "PS5 Hall Effect upgrade",
   },
 ];
 
@@ -216,6 +234,22 @@ export function LandingPage() {
       left: direction === "left" ? -430 : 430,
       behavior: "smooth",
     });
+  }
+
+  function handleFeedbackWheel(event: WheelEvent<HTMLDivElement>) {
+    const scroller = feedbackRef.current;
+    if (!scroller || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+    const movingRight = event.deltaY > 0;
+    const canMove =
+      movingRight
+        ? scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth
+        : scroller.scrollLeft > 0;
+
+    if (canMove) {
+      event.preventDefault();
+      scroller.scrollLeft += event.deltaY;
+    }
   }
 
   return (
@@ -402,7 +436,7 @@ export function LandingPage() {
 
       <section
         id="choose"
-        className="scroll-mt-20 bg-[#0c0d0b] py-10 text-white"
+        className="scroll-mt-20 bg-[#0c0d0b] py-20 text-white"
       >
         <div className="page-shell">
           <div className="mx-auto max-w-3xl text-center">
@@ -448,14 +482,16 @@ export function LandingPage() {
                       Benefits
                     </p>
                     <ul className="mt-3 space-y-2.5">
-                      {["Lowest cost", "Keeps original feel", "Same-day service"].map(
-                        (item) => (
+                      {[
+                        "Saves money while bringing the controller back to normal use",
+                        "Fixes stick drift without unnecessary replacement",
+                        "Can restore accurate stick movement",
+                      ].map((item) => (
                           <li key={item} className="flex gap-2 text-sm text-white/75">
                             <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
                             {item}
                           </li>
-                        ),
-                      )}
+                      ))}
                     </ul>
                   </div>
                   <div>
@@ -463,7 +499,12 @@ export function LandingPage() {
                       Downsides
                     </p>
                     <ul className="mt-3 space-y-2.5">
-                      {["Wear can return", "Not a permanent upgrade"].map((item) => (
+                      {[
+                        "Stick drift can come back over time",
+                        "Has a shorter lifespan than Hall Effect modules",
+                        "Repeated repairs may eventually cost more",
+                        "It is a repair, not a long-term upgrade",
+                      ].map((item) => (
                         <li key={item} className="flex gap-2 text-sm text-white/75">
                           <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
                           {item}
@@ -515,9 +556,10 @@ export function LandingPage() {
                     </p>
                     <ul className="mt-3 space-y-2.5">
                       {[
-                        "Resists future drift",
-                        "Magnetic, contactless input",
-                        "Calibrated precision",
+                        "More reliable for heavy gaming",
+                        "Uses magnetic sensors instead of physical contact",
+                        "Longer lifespan than standard potentiometer joysticks",
+                        "Permanent resistant to stick drift",
                       ].map((item) => (
                         <li key={item} className="flex gap-2 text-sm text-white/75">
                           <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
@@ -531,14 +573,12 @@ export function LandingPage() {
                       Downsides
                     </p>
                     <ul className="mt-3 space-y-2.5">
-                      {["Costs $15 more", "May feel slightly different"].map(
-                        (item) => (
+                      {["Costs $15 more"].map((item) => (
                           <li key={item} className="flex gap-2 text-sm text-white/75">
                             <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
                             {item}
                           </li>
-                        ),
-                      )}
+                      ))}
                     </ul>
                   </div>
                 </div>
@@ -594,6 +634,7 @@ export function LandingPage() {
           </div>
           <div
             ref={feedbackRef}
+            onWheel={handleFeedbackWheel}
             className="scrollbar-hide -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3"
           >
             {testimonials.map((testimonial, index) => (
@@ -623,7 +664,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section className="py-14 sm:py-16">
+      <section className="py-[106px] sm:py-[114px]">
         <div className="page-shell">
           <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
             <SectionTitle
@@ -649,7 +690,7 @@ export function LandingPage() {
                 key={label}
                 {...fadeUp}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center sm:min-h-44"
+                className="flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center transition-transform duration-300 hover:scale-[1.025] sm:min-h-44"
               >
                 <div className="text-[#777a73]">
                   <Camera className="mx-auto size-7" strokeWidth={1.5} />
