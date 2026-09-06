@@ -20,6 +20,10 @@ export const repairRequestSchema = z.object({
     "USB-C / charging",
     "Not sure",
   ]),
+  fulfillment: z.enum([
+    "Drop off",
+    "Pickup & drop-off",
+  ]),
   details: z.string().trim().min(10, "Tell us a little more").max(1200),
   turnstileToken: z.string().min(1, "Please complete the security check"),
 });

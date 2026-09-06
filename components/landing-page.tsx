@@ -2,12 +2,16 @@
 
 import {
   ArrowRight,
+  Camera,
   Check,
   Gamepad2,
-  Hammer,
+  MapPin,
   Menu,
+  Play,
   ShieldCheck,
   Star,
+  Truck,
+  X,
 } from "lucide-react";
 import { motion } from "motion/react";
 import { RepairForm } from "@/components/repair-form";
@@ -207,8 +211,8 @@ export function LandingPage() {
             <a className="transition-colors hover:text-white" href="#ps5">
               PS5 Repair
             </a>
-            <a className="transition-colors hover:text-white" href="#hall-effect">
-              Hall Effect
+            <a className="transition-colors hover:text-white" href="#choose">
+              Repair Options
             </a>
             <a className="transition-colors hover:text-white" href="#contact">
               Contact
@@ -229,7 +233,7 @@ export function LandingPage() {
         </div>
       </header>
 
-      <section className="relative flex min-h-[760px] items-end overflow-hidden bg-[#10110f] pb-14 pt-32 text-white sm:min-h-[820px] sm:pb-20">
+      <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#10110f] pb-8 pt-24 text-white sm:h-[100svh] sm:min-h-[640px] sm:pb-10">
         <div className="absolute inset-0 grid-noise opacity-60" />
         <div className="absolute -right-32 top-24 size-[34rem] rounded-full bg-[#7c5cff]/20 blur-[120px]" />
         <div className="absolute -left-28 bottom-20 size-80 rounded-full bg-[#b6ff2e]/10 blur-[100px]" />
@@ -239,20 +243,20 @@ export function LandingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65 }}
           >
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-bold text-white/70 backdrop-blur">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-bold text-white/70 backdrop-blur">
               <span className="size-2 rounded-full bg-[#b6ff2e] shadow-[0_0_14px_#b6ff2e]" />
-              Now booking mail-in repairs
+              Professional stick drift repair in the city of Vancouver
             </div>
-            <h1 className="font-display max-w-3xl text-[3.5rem] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[5.6rem]">
-              Fix stick drift.
+            <h1 className="font-display max-w-3xl text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[5.15rem]">
+              Say goodbye to
               <br />
-              <span className="text-[#b6ff2e]">Upgrade for $40.</span>
+              <span className="text-[#b6ff2e]">stick drift.</span>
             </h1>
-            <p className="mt-7 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
-              Hall Effect joystick repair and upgrades for Xbox and PS5
-              controllers. One clear price, tested and warranty-backed.
+            <p className="mt-5 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
+              Same-day fix for Xbox and PS5 controllers. Repair your current
+              joystick for $25 or upgrade to Hall Effect for $40.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg">
                 <a href="#contact">
                   Request a repair <ArrowRight className="size-4" />
@@ -263,8 +267,8 @@ export function LandingPage() {
                 size="lg"
                 className="border border-white/15 bg-white/5 text-white hover:bg-white/10"
               >
-                <a href="#hall-effect">
-                  See the $40 upgrade <ArrowRight className="size-4" />
+                <a href="#choose">
+                  Choose your fix <ArrowRight className="size-4" />
                 </a>
               </Button>
             </div>
@@ -274,7 +278,7 @@ export function LandingPage() {
             initial={{ opacity: 0, scale: 0.9, rotate: -7 }}
             animate={{ opacity: 1, scale: 1, rotate: 4 }}
             transition={{ type: "spring", stiffness: 70, damping: 14, delay: 0.15 }}
-            className="relative hidden min-h-[390px] items-center justify-center lg:flex"
+            className="relative hidden min-h-[340px] items-center justify-center lg:flex"
           >
             <div className="absolute size-[360px] rounded-full border border-white/10" />
             <div className="absolute size-[260px] rounded-full border border-[#b6ff2e]/20" />
@@ -293,9 +297,9 @@ export function LandingPage() {
             <div className="absolute bottom-8 left-0 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md">
               <ShieldCheck className="size-6 text-[#b6ff2e]" />
               <div>
-                <p className="text-xs font-bold">Warranty included</p>
+                <p className="text-xs font-bold">Same-day fix</p>
                 <p className="mt-0.5 text-[0.65rem] text-white/45">
-                  Every repair, every time
+                  For most stick drift repairs
                 </p>
               </div>
             </div>
@@ -307,7 +311,7 @@ export function LandingPage() {
         <div className="page-shell grid grid-cols-2 divide-x divide-[#dcddd7] sm:grid-cols-4">
           {[
             ["90 day", "repair warranty"],
-            ["48 hr", "typical turnaround"],
+            ["Same day", "most drift repairs"],
             ["100%", "bench tested"],
             ["Xbox + PS5", "specialists"],
           ].map(([value, label]) => (
@@ -349,55 +353,176 @@ export function LandingPage() {
       />
 
       <section
-        id="hall-effect"
-        className="scroll-mt-20 bg-[#11120f] py-20 text-white sm:py-28"
+        className="border-y border-[#d9dad4] bg-[#b6ff2e] py-9"
       >
-        <div className="page-shell grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
-          <SectionTitle
-            eyebrow="The upgrade that lasts"
-            title="Hall Effect sticks. No more drift."
-            copy="We replace worn analog modules with magnetic Hall Effect joysticks, then calibrate and test every input. Available for Xbox and PS5 controllers."
-            light
-          />
-          <motion.div
-            {...fadeUp}
-            className="rounded-[2rem] bg-[#b6ff2e] p-7 text-[#11120f] sm:p-10"
-          >
-            <div className="flex items-start justify-between gap-6">
-              <div>
-                <p className="text-xs font-extrabold uppercase tracking-[0.14em] opacity-55">
-                  Hall Effect repair or upgrade
-                </p>
-                <p className="font-display mt-3 text-7xl font-semibold tracking-[-0.07em] sm:text-8xl">
-                  $40
-                </p>
+        <p className="page-shell font-display text-center text-2xl font-semibold tracking-[-0.035em] sm:text-3xl">
+          No need to buy a new controller just because the old one has stick
+          drift.
+        </p>
+      </section>
+
+      <section
+        id="choose"
+        className="scroll-mt-20 bg-[#0c0d0b] py-20 text-white sm:py-28"
+      >
+        <div className="page-shell">
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="eyebrow justify-center text-white/50">
+              Two ways forward
+            </span>
+            <h2 className="font-display mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] sm:text-6xl">
+              Choose your pill.
+            </h2>
+            <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/55">
+              Keep the original joystick alive for less, or install a magnetic
+              Hall Effect module built to resist future drift.
+            </p>
+          </div>
+
+          <div className="mt-12 grid gap-5 lg:grid-cols-2">
+            <motion.article
+              {...fadeUp}
+              className="overflow-hidden rounded-[2rem] border border-[#ff5a5f]/40 bg-[#ff5a5f]/[0.08]"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#ff5a5f] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
+                      <span className="size-2 rounded-full bg-white" />
+                      Red pill
+                    </span>
+                    <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
+                      Dirty Cheap Fix
+                    </h3>
+                    <p className="mt-2 text-sm text-white/55">
+                      Repair the old joystick module
+                    </p>
+                  </div>
+                  <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#ff7175]">
+                    $25
+                  </p>
+                </div>
+
+                <div className="mt-7 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-2">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#82e8a0]">
+                      Benefits
+                    </p>
+                    <ul className="mt-3 space-y-2.5">
+                      {["Lowest cost", "Keeps original feel", "Same-day service"].map(
+                        (item) => (
+                          <li key={item} className="flex gap-2 text-sm text-white/75">
+                            <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
+                            {item}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#ff8589]">
+                      Downsides
+                    </p>
+                    <ul className="mt-3 space-y-2.5">
+                      {["Wear can return", "Not a permanent upgrade"].map((item) => (
+                        <li key={item} className="flex gap-2 text-sm text-white/75">
+                          <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               </div>
-              <span className="rounded-full bg-[#11120f] px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-wider text-white">
-                Xbox or PS5
-              </span>
-            </div>
-            <ul className="mt-8 grid gap-3 border-t border-black/15 pt-7 sm:grid-cols-2">
-              {[
-                "Hall Effect module",
-                "Full calibration",
-                "Input testing",
-                "90-day warranty",
-              ].map((feature) => (
-                <li
-                  key={feature}
-                  className="flex items-center gap-2 text-sm font-bold"
-                >
-                  <Check className="size-4" strokeWidth={3} />
-                  {feature}
-                </li>
-              ))}
-            </ul>
-            <Button asChild variant="dark" size="lg" className="mt-8 w-full">
+              <div className="flex aspect-video items-center justify-center border-t border-white/10 bg-black/35">
+                <div className="text-center text-white/45">
+                  <Play className="mx-auto size-9" strokeWidth={1.4} />
+                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em]">
+                    Repair explanation video
+                  </p>
+                  <p className="mt-1 text-xs">Your video goes here</p>
+                </div>
+              </div>
+            </motion.article>
+
+            <motion.article
+              {...fadeUp}
+              transition={{ duration: 0.5, delay: 0.08 }}
+              className="overflow-hidden rounded-[2rem] border border-[#627dff]/45 bg-[#627dff]/[0.1]"
+            >
+              <div className="p-6 sm:p-8">
+                <div className="flex flex-wrap items-start justify-between gap-4">
+                  <div>
+                    <span className="inline-flex items-center gap-2 rounded-full bg-[#627dff] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
+                      <span className="size-2 rounded-full bg-white" />
+                      Blue pill
+                    </span>
+                    <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
+                      Affordable Upgrade
+                    </h3>
+                    <p className="mt-2 text-sm text-white/55">
+                      Change to a new Hall Effect module
+                    </p>
+                  </div>
+                  <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#8da0ff]">
+                    $40
+                  </p>
+                </div>
+
+                <div className="mt-7 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-2">
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#82e8a0]">
+                      Benefits
+                    </p>
+                    <ul className="mt-3 space-y-2.5">
+                      {[
+                        "Resists future drift",
+                        "Magnetic, contactless input",
+                        "Calibrated precision",
+                      ].map((item) => (
+                        <li key={item} className="flex gap-2 text-sm text-white/75">
+                          <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-wider text-[#ff8589]">
+                      Downsides
+                    </p>
+                    <ul className="mt-3 space-y-2.5">
+                      {["Costs $15 more", "May feel slightly different"].map(
+                        (item) => (
+                          <li key={item} className="flex gap-2 text-sm text-white/75">
+                            <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
+                            {item}
+                          </li>
+                        ),
+                      )}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div className="flex aspect-video items-center justify-center border-t border-white/10 bg-black/35">
+                <div className="text-center text-white/45">
+                  <Play className="mx-auto size-9" strokeWidth={1.4} />
+                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em]">
+                    Upgrade explanation video
+                  </p>
+                  <p className="mt-1 text-xs">Your video goes here</p>
+                </div>
+              </div>
+            </motion.article>
+          </div>
+
+          <div className="mt-8 text-center">
+            <Button asChild size="lg">
               <a href="#contact">
-                Get the $40 upgrade <ArrowRight className="size-4" />
+                Choose my repair <ArrowRight className="size-4" />
               </a>
             </Button>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -436,43 +561,84 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="contact" className="scroll-mt-10 py-20 sm:py-28">
-        <div className="page-shell grid overflow-hidden rounded-[2rem] bg-white shadow-[0_28px_80px_rgb(16_17_15/0.09)] lg:grid-cols-[0.82fr_1.18fr]">
-          <div className="relative overflow-hidden bg-[#7c5cff] p-7 text-white sm:p-10">
-            <div className="absolute -bottom-24 -right-24 size-72 rounded-full border-[50px] border-white/10" />
-            <span className="eyebrow text-white/60">Repair request</span>
-            <h2 className="font-display mt-4 text-4xl font-semibold leading-[1.03] tracking-[-0.04em]">
-              Tell us what your controller is doing.
-            </h2>
-            <p className="mt-5 text-sm leading-6 text-white/70">
-              Share the model and symptoms. We’ll reply with a clear quote and
-              mail-in instructions—usually within one business day.
-            </p>
-            <div className="relative mt-9 space-y-5">
-              {[
-                [Hammer, "Expert diagnosis", "No vague guesswork"],
-                [Star, "Quality components", "Chosen for long-term play"],
-                [ShieldCheck, "Warranty-backed", "Confidence after the fix"],
-              ].map(([Icon, title, note]) => {
-                const IconComponent = Icon as typeof Hammer;
-                return (
-                  <div key={String(title)} className="flex gap-3">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-white/10">
-                      <IconComponent className="size-5" />
-                    </span>
-                    <div>
-                      <p className="text-sm font-bold">{String(title)}</p>
-                      <p className="mt-0.5 text-xs text-white/55">
-                        {String(note)}
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+      <section className="py-20 sm:py-28">
+        <div className="page-shell">
+          <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
+            <SectionTitle
+              eyebrow="Fresh off the bench"
+              title="Controllers we’ve brought back."
+              copy="Before-and-after photos are coming soon. Add your finished repair shots here when they’re ready."
+            />
+            <span className="flex items-center gap-2 text-xs font-bold uppercase tracking-[0.12em] text-[#777a73]">
+              <Camera className="size-4" />
+              Gallery
+            </span>
           </div>
-          <div className="p-2 sm:p-3">
-            <RepairForm />
+          <div className="mt-10 grid grid-cols-2 gap-3 md:grid-cols-3">
+            {[
+              "Xbox Series repair",
+              "DualSense upgrade",
+              "Elite controller fix",
+              "Hall Effect install",
+              "Joystick calibration",
+              "PS5 stick repair",
+            ].map((label, index) => (
+              <motion.div
+                key={label}
+                {...fadeUp}
+                transition={{ duration: 0.4, delay: index * 0.04 }}
+                className="flex min-h-44 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-5 text-center sm:min-h-64"
+              >
+                <div className="text-[#777a73]">
+                  <Camera className="mx-auto size-7" strokeWidth={1.5} />
+                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.12em]">
+                    Photo placeholder
+                  </p>
+                  <p className="mt-1 text-xs">{label}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="scroll-mt-10 py-20 sm:py-28">
+        <div className="page-shell">
+          <SectionTitle
+            eyebrow="Book your repair"
+            title="Drop it off or we’ll come to you."
+            copy="Tell us what’s wrong and choose the option that works for you. Most stick drift repairs are completed the same day."
+          />
+          <div className="mt-10 grid overflow-hidden rounded-[2rem] bg-white shadow-[0_28px_80px_rgb(16_17_15/0.09)] lg:grid-cols-[1.08fr_0.92fr]">
+            <div className="p-2 sm:p-3">
+              <RepairForm />
+            </div>
+            <div className="relative min-h-[440px] overflow-hidden bg-[#171815] lg:min-h-full">
+              <iframe
+                title="StickLab service area in Vancouver"
+                src="https://www.openstreetmap.org/export/embed.html?bbox=-123.18%2C49.24%2C-123.04%2C49.30&layer=mapnik&marker=49.2827%2C-123.1207"
+                className="absolute inset-0 h-full w-full border-0 opacity-85 grayscale-[0.25]"
+                loading="lazy"
+              />
+              <div className="absolute inset-x-5 bottom-5 rounded-2xl bg-[#11120f]/95 p-5 text-white shadow-xl backdrop-blur sm:inset-x-7 sm:bottom-7">
+                <div className="flex items-start gap-3">
+                  <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-[#b6ff2e] text-[#11120f]">
+                    <MapPin className="size-5" />
+                  </span>
+                  <div>
+                    <p className="text-sm font-bold">Vancouver service area</p>
+                    <p className="mt-1 text-xs leading-5 text-white/55">
+                      Local drop-off is free. Pickup and return is available
+                      with a distance-based fee after the first 2 km.
+                    </p>
+                  </div>
+                </div>
+                <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-4 text-xs font-semibold text-white/70">
+                  <Truck className="size-4 text-[#b6ff2e]" />
+                  Ask for a pickup quote in your request
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -492,8 +658,8 @@ export function LandingPage() {
             <a className="hover:text-black" href="#ps5">
               PS5 Repair
             </a>
-            <a className="hover:text-black" href="#hall-effect">
-              Hall Effect — $40
+            <a className="hover:text-black" href="#choose">
+              Repair Options
             </a>
             <a className="hover:text-black" href="#contact">
               Contact

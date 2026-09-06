@@ -20,13 +20,13 @@ const controllers = [
 ] as const;
 
 const services = [
-  "Stick drift",
-  "Joystick replacement",
-  "Hall Effect upgrade",
-  "Buttons",
-  "Triggers / bumpers",
-  "USB-C / charging",
-  "Not sure",
+  { value: "Stick drift", label: "Repair old joystick module — $25" },
+  { value: "Hall Effect upgrade", label: "Hall Effect upgrade — $40" },
+  { value: "Joystick replacement", label: "Joystick replacement" },
+  { value: "Buttons", label: "Buttons" },
+  { value: "Triggers / bumpers", label: "Triggers / bumpers" },
+  { value: "USB-C / charging", label: "USB-C / charging" },
+  { value: "Not sure", label: "Not sure yet" },
 ] as const;
 
 export function RepairForm() {
@@ -43,6 +43,7 @@ export function RepairForm() {
     defaultValues: {
       controller: "Xbox Series X|S",
       service: "Stick drift",
+      fulfillment: "Drop off",
       turnstileToken: "",
     },
   });
@@ -138,10 +139,31 @@ export function RepairForm() {
           </span>
           <select className="field appearance-none" {...register("service")}>
             {services.map((service) => (
-              <option key={service}>{service}</option>
+              <option key={service.value} value={service.value}>
+                {service.label}
+              </option>
             ))}
           </select>
           {errorText(errors.service?.message)}
+        </label>
+        <label className="block sm:col-span-2">
+          <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+            Drop-off or pickup?
+          </span>
+          <select
+            className="field appearance-none"
+            {...register("fulfillment")}
+          >
+            <option value="Drop off">I’ll drop it off — free</option>
+            <option value="Pickup & drop-off">
+              Pickup & drop-off — distance fee after 2 km
+            </option>
+          </select>
+          <p className="mt-1.5 text-xs leading-5 text-[#777a73]">
+            Pickup and return is available around Vancouver. The extra fee is
+            based on travel distance beyond 2 km.
+          </p>
+          {errorText(errors.fulfillment?.message)}
         </label>
         <label className="block sm:col-span-2">
           <span className="mb-2 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">

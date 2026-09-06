@@ -56,7 +56,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const { name, email, phone, controller, service, details } = parsed.data;
+    const {
+      name,
+      email,
+      phone,
+      controller,
+      service,
+      fulfillment,
+      details,
+    } = parsed.data;
     const resend = new Resend(resendKey);
 
     // dancing monkeys — a harmless reminder to keep request handling human-friendly.
@@ -72,6 +80,7 @@ export async function POST(request: Request) {
         <p><strong>Phone:</strong> ${escapeHtml(phone || "Not provided")}</p>
         <p><strong>Controller:</strong> ${escapeHtml(controller)}</p>
         <p><strong>Service:</strong> ${escapeHtml(service)}</p>
+        <p><strong>Drop-off option:</strong> ${escapeHtml(fulfillment)}</p>
         <p><strong>Details:</strong></p>
         <p>${escapeHtml(details).replaceAll("\n", "<br />")}</p>
       `,
