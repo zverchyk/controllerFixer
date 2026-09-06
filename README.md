@@ -12,12 +12,25 @@ cp .env.example .env.local
 npm run dev
 ```
 
-The Turnstile widget uses Cloudflare's public test site key when
-`NEXT_PUBLIC_TURNSTILE_SITE_KEY` is absent. Form delivery still requires the
-server-side values shown in `.env.example`.
+## Repair request emails
+
+The form needs exactly one setting to work:
+
+```bash
+RESEND_API_KEY=your_resend_key
+```
+
+Requests are emailed to `techoleks@gmail.com` with the subject
+"Controller fix request", and replies go straight back to the customer. Set
+`REPAIR_REQUEST_EMAIL` to send somewhere else, and `REPAIR_FROM_EMAIL` once you
+have a verified Resend domain (the default sender is `onboarding@resend.dev`,
+which only delivers to the Resend account owner's address).
+
+Cloudflare Turnstile is optional: set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and
+`TURNSTILE_SECRET_KEY` to switch spam checks on. Without them the form still
+submits and verification is skipped.
 
 ## Vercel deployment
 
-Import the repository into Vercel and add every variable from `.env.example`.
-Use a verified sender/domain in Resend for `REPAIR_FROM_EMAIL` and set
-`REPAIR_REQUEST_EMAIL` to the inbox that should receive repair requests.
+Import the repository into Vercel and add `RESEND_API_KEY` (plus any optional
+variables from `.env.example`) in the project settings.
