@@ -9,11 +9,15 @@ export function HorizontalScroller({
   className,
   scrollerRef,
   label,
+  autoAdvanceMs,
+  loop = false,
 }: {
   children: ReactNode;
   className?: string;
   scrollerRef?: RefObject<HTMLDivElement | null>;
   label?: string;
+  autoAdvanceMs?: number;
+  loop?: boolean;
 }) {
   const fallbackRef = useRef<HTMLDivElement>(null);
   const trackRef = scrollerRef ?? fallbackRef;
@@ -94,6 +98,60 @@ export function HorizontalScroller({
       track.removeEventListener("pointercancel", handlePointerRelease);
     };
   }, [trackRef]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track || !autoAdvanceMs) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let paused = false;
+    const pause = () => {
+      paused = true;
+    };
+    const resume = () => {
+      paused = false;
+    };
+
+    // The duplicated second half lets the row rewind without a visible jump.
+    const rewind = () => {
+      if (!loop) return;
+      const half = track.scrollWidth / 2;
+      if (track.scrollLeft >= half) track.scrollLeft -= half;
+      else if (track.scrollLeft <= 0) track.scrollLeft += half;
+    };
+
+    const advance = () => {
+      if (paused) return;
+
+      const card = track.firstElementChild as HTMLElement | null;
+      if (!card) return;
+
+      rewind();
+      const gap = parseFloat(getComputedStyle(track).columnGap || "0") || 0;
+      track.scrollBy({
+        left: card.getBoundingClientRect().width + gap,
+        behavior: "smooth",
+      });
+    };
+
+    const timer = window.setInterval(advance, autoAdvanceMs);
+    track.addEventListener("pointerenter", pause);
+    track.addEventListener("pointerleave", resume);
+    track.addEventListener("focusin", pause);
+    track.addEventListener("focusout", resume);
+    track.addEventListener("touchstart", pause, { passive: true });
+    track.addEventListener("touchend", resume, { passive: true });
+
+    return () => {
+      window.clearInterval(timer);
+      track.removeEventListener("pointerenter", pause);
+      track.removeEventListener("pointerleave", resume);
+      track.removeEventListener("focusin", pause);
+      track.removeEventListener("focusout", resume);
+      track.removeEventListener("touchstart", pause);
+      track.removeEventListener("touchend", resume);
+    };
+  }, [autoAdvanceMs, loop, trackRef]);
 
   return (
     <div

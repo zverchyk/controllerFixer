@@ -1,12 +1,9 @@
 "use client";
 
-import { useRef } from "react";
 import {
   ArrowRight,
   Camera,
   Check,
-  ChevronLeft,
-  ChevronRight,
   Gamepad2,
   MapPin,
   Menu,
@@ -228,15 +225,6 @@ function PlatformSection({
 }
 
 export function LandingPage() {
-  const feedbackRef = useRef<HTMLDivElement>(null);
-
-  function scrollFeedback(direction: "left" | "right") {
-    feedbackRef.current?.scrollBy({
-      left: direction === "left" ? -430 : 430,
-      behavior: "smooth",
-    });
-  }
-
   return (
     <main className="overflow-hidden">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -595,39 +583,21 @@ export function LandingPage() {
 
       <section className="bg-[#e9eae5] py-20 sm:py-28">
         <div className="page-shell">
-          <div className="flex items-end justify-between gap-6">
-            <SectionTitle
-              eyebrow="Customer feedback"
-              title="Controllers fixed. Players happy."
-              copy="Simple service, clear communication, and controllers that perform the way they should."
-            />
-            <div className="hidden shrink-0 gap-2 sm:flex">
-              <button
-                type="button"
-                onClick={() => scrollFeedback("left")}
-                aria-label="Scroll feedback left"
-                className="flex size-11 items-center justify-center rounded-full border border-[#cfd0ca] bg-white transition-colors hover:bg-[#b6ff2e]"
-              >
-                <ChevronLeft className="size-5" />
-              </button>
-              <button
-                type="button"
-                onClick={() => scrollFeedback("right")}
-                aria-label="Scroll feedback right"
-                className="flex size-11 items-center justify-center rounded-full border border-[#cfd0ca] bg-white transition-colors hover:bg-[#b6ff2e]"
-              >
-                <ChevronRight className="size-5" />
-              </button>
-            </div>
-          </div>
+          <SectionTitle
+            eyebrow="Customer feedback"
+            title="Controllers fixed. Players happy."
+            copy="Simple service, clear communication, and controllers that perform the way they should."
+          />
           <HorizontalScroller
-            scrollerRef={feedbackRef}
             label="Customer feedback"
             className="mt-12 pb-2"
+            autoAdvanceMs={5000}
+            loop
           >
-            {testimonials.map((testimonial) => (
+            {[...testimonials, ...testimonials].map((testimonial, index) => (
               <figure
-                key={testimonial.name}
+                key={`${testimonial.name}-${index}`}
+                aria-hidden={index >= testimonials.length}
                 className="w-[86%] shrink-0 rounded-3xl border border-[#d4d5cf] bg-white p-7 sm:w-[430px] lg:w-[470px]"
               >
                 <div className="flex gap-1 text-[#7c5cff]" aria-label="5 out of 5 stars">
