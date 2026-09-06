@@ -296,24 +296,32 @@ export function LandingPage() {
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#10110f] pb-8 pt-24 text-white sm:h-[100svh] sm:min-h-[640px] sm:pb-10">
         <div className="absolute inset-0 grid-noise opacity-60" />
-        <div className="absolute -right-32 top-24 size-[34rem] rounded-full bg-[#7c5cff]/20 blur-[120px]" />
-        <div className="absolute -left-28 bottom-20 size-80 rounded-full bg-[#b6ff2e]/10 blur-[100px]" />
-        <div className="page-shell relative z-10 grid items-end gap-10 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="absolute -left-28 bottom-20 size-80 rounded-full bg-[#7c5cff]/20 blur-[100px]" />
+        <p
+          aria-hidden="true"
+          className="font-display absolute -bottom-[0.18em] left-1/2 -translate-x-1/2 whitespace-nowrap text-[18vw] font-bold tracking-[-0.08em] text-white/[0.025]"
+        >
+          VANCOUVER
+        </p>
+        <div className="page-shell relative z-10 grid items-center gap-10 lg:grid-cols-[1.2fr_0.8fr]">
           <motion.div
             initial={{ opacity: 0, y: 28 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.65 }}
           >
-            <div className="mb-6 inline-flex max-w-xl items-center gap-3 rounded-2xl border border-white/15 bg-white/[0.07] px-4 py-3 text-base font-bold leading-5 text-white backdrop-blur sm:text-lg">
+            <div className="mb-5 inline-flex max-w-xl items-center gap-3 border-l-4 border-[#b6ff2e] pl-4 text-base font-bold leading-5 text-white sm:text-xl">
               <span className="size-2.5 shrink-0 rounded-full bg-[#b6ff2e] shadow-[0_0_14px_#b6ff2e]" />
               Expert Controller Stick Drift Repair in Vancouver
             </div>
-            <h1 className="font-display max-w-3xl text-[3.35rem] font-semibold leading-[0.9] tracking-[-0.065em] sm:text-7xl lg:text-[5.15rem]">
-              Say goodbye to
+            <h1 className="font-display max-w-4xl text-[3.8rem] font-bold uppercase leading-[0.82] tracking-[-0.075em] sm:text-8xl lg:text-[6.5rem]">
+              Goodbye,
               <br />
               <span className="text-[#b6ff2e]">stick drift.</span>
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-7 text-white/60 sm:text-lg">
+            <div className="mt-5 inline-flex rounded-full bg-[#7c5cff] px-5 py-2.5 font-display text-xl font-bold uppercase tracking-[-0.02em] text-white sm:text-2xl">
+              Vancouver · Same-day service
+            </div>
+            <p className="mt-4 max-w-xl text-base leading-7 text-white/60">
               Same-day fix for Xbox and PS5 controllers. Repair your current
               joystick for $25 or upgrade to Hall Effect for $40.
             </p>
@@ -336,33 +344,31 @@ export function LandingPage() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, rotate: -7 }}
-            animate={{ opacity: 1, scale: 1, rotate: 4 }}
-            transition={{ type: "spring", stiffness: 70, damping: 14, delay: 0.15 }}
-            className="relative hidden min-h-[340px] items-center justify-center lg:flex"
+            initial={{ opacity: 0, scale: 0.92, rotate: 3 }}
+            animate={{ opacity: 1, scale: 1, rotate: -2 }}
+            transition={{ type: "spring", stiffness: 75, damping: 15, delay: 0.15 }}
+            className="relative hidden min-h-[430px] flex-col justify-between overflow-hidden rounded-[2rem] bg-[#b6ff2e] p-8 text-[#10110f] lg:flex"
           >
-            <div className="absolute size-[360px] rounded-full border border-white/10" />
-            <div className="absolute size-[260px] rounded-full border border-[#b6ff2e]/20" />
-            <Gamepad2
-              strokeWidth={0.85}
-              className="relative z-10 h-72 w-[25rem] text-white"
-            />
-            <div className="absolute right-1 top-12 rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md">
-              <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-white/45">
-                Input accuracy
+            <div className="flex w-full items-center justify-between border-b border-black/15 pb-4">
+              <p className="text-xs font-extrabold uppercase tracking-[0.16em]">
+                Local controller lab
               </p>
-              <p className="font-display mt-1 text-2xl font-bold text-[#b6ff2e]">
-                99.8%
-              </p>
+              <MapPin className="size-5" />
             </div>
-            <div className="absolute bottom-8 left-0 flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.07] p-4 backdrop-blur-md">
-              <ShieldCheck className="size-6 text-[#b6ff2e]" />
+            <Gamepad2
+              strokeWidth={0.9}
+              className="relative z-10 mx-auto h-52 w-full"
+            />
+            <div className="flex w-full items-center justify-between gap-4 border-t border-black/15 pt-5">
               <div>
-                <p className="text-xs font-bold">Same-day fix</p>
-                <p className="mt-0.5 text-[0.65rem] text-white/45">
-                  For most stick drift repairs
+                <p className="font-display text-3xl font-bold tracking-[-0.05em]">
+                  FROM $25
+                </p>
+                <p className="mt-1 text-xs font-semibold opacity-55">
+                  Repair or Hall Effect upgrade
                 </p>
               </div>
+              <ShieldCheck className="size-9" />
             </div>
           </motion.div>
         </div>
@@ -484,8 +490,6 @@ export function LandingPage() {
                     <ul className="mt-3 space-y-2.5">
                       {[
                         "Saves money while bringing the controller back to normal use",
-                        "Fixes stick drift without unnecessary replacement",
-                        "Can restore accurate stick movement",
                       ].map((item) => (
                           <li key={item} className="flex gap-2 text-sm text-white/75">
                             <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
@@ -501,7 +505,6 @@ export function LandingPage() {
                     <ul className="mt-3 space-y-2.5">
                       {[
                         "Stick drift can come back over time",
-                        "Has a shorter lifespan than Hall Effect modules",
                         "Repeated repairs may eventually cost more",
                         "It is a repair, not a long-term upgrade",
                       ].map((item) => (
@@ -635,7 +638,7 @@ export function LandingPage() {
           <div
             ref={feedbackRef}
             onWheel={handleFeedbackWheel}
-            className="scrollbar-hide -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3"
+            className="feedback-scroll -mx-4 mt-12 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5"
           >
             {testimonials.map((testimonial, index) => (
               <motion.figure
