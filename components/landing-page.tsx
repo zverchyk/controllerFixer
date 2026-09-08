@@ -13,6 +13,7 @@ import {
   X,
 } from "lucide-react";
 import { motion } from "motion/react";
+import Image from "next/image";
 import {
   FeedbackCard,
   type FeedbackCardVariant,
@@ -24,6 +25,16 @@ import { testimonials } from "@/lib/testimonials";
 
 // Swap this number (1-6) to change the feedback card design site-wide.
 const FEEDBACK_CARD_VARIANT: FeedbackCardVariant = 3;
+
+// Add an image path (e.g. "/gallery/xbox-series.jpg") to replace a placeholder.
+const gallery: { label: string; image?: string }[] = [
+  { label: "Xbox Series repair" },
+  { label: "DualSense upgrade" },
+  { label: "Elite controller fix" },
+  { label: "Hall Effect install" },
+  { label: "Joystick calibration" },
+  { label: "PS5 stick repair" },
+];
 
 const fadeUp = {
   initial: { opacity: 0, y: 22 },
@@ -584,27 +595,30 @@ export function LandingPage() {
             </span>
           </div>
           <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-3">
-            {[
-              "Xbox Series repair",
-              "DualSense upgrade",
-              "Elite controller fix",
-              "Hall Effect install",
-              "Joystick calibration",
-              "PS5 stick repair",
-            ].map((label, index) => (
+            {gallery.map(({ label, image }, index) => (
               <motion.div
                 key={label}
                 {...fadeUp}
                 transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center transition-transform duration-300 hover:scale-[1.025] sm:min-h-44"
+                className="relative flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center transition-transform duration-300 hover:scale-[1.025] sm:min-h-44"
               >
-                <div className="text-[#777a73]">
-                  <Camera className="mx-auto size-7" strokeWidth={1.5} />
-                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.12em]">
-                    Photo placeholder
-                  </p>
-                  <p className="mt-1 text-xs">{label}</p>
-                </div>
+                {image ? (
+                  <Image
+                    src={image}
+                    alt={label}
+                    fill
+                    sizes="(max-width: 768px) 50vw, 33vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="text-[#777a73]">
+                    <Camera className="mx-auto size-7" strokeWidth={1.5} />
+                    <p className="mt-3 text-xs font-bold uppercase tracking-[0.12em]">
+                      Photo placeholder
+                    </p>
+                    <p className="mt-1 text-xs">{label}</p>
+                  </div>
+                )}
               </motion.div>
             ))}
           </div>
