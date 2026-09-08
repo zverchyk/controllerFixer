@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import { repairRequestSchema } from "@/lib/repair-schema";
 
+const TURNSTILE_VERIFY_URL =
+  "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const SUBJECT = "Controller fix request";
 const DEFAULT_RECIPIENT = "techoleks@gmail.com";
 const DEFAULT_SENDER =
@@ -52,6 +54,30 @@ export async function POST(request: Request) {
     const { name, email, phone, controller, service, fulfillment, details } =
       parsed.data;
 
+    // Spam protection only runs when a Turnstile secret is configured.
+    const turnstileSecret = process.env.TURNSTILE_SECRET_KEY;
+
+    if (turnstileSecret) {
+      const turnstileResponse = await fetch(TURNSTILE_VERIFY_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          secret: turnstileSecret,
+          response: parsed.data.turnstileToken ?? "",
+        }),
+      });
+      const verification = (await turnstileResponse.json()) as {
+        success?: boolean;
+      };
+
+      if (!verification.success) {
+        return NextResponse.json(
+          { error: "Security check failed. Please refresh and try again." },
+          { status: 400 },
+        );
+      }
+    }
+
     const rows = buildRows([
       ["Name", name],
       ["Email", email],
@@ -63,6 +89,7 @@ export async function POST(request: Request) {
 
     const resend = new Resend(resendKey);
 
+    // dancing monkeys — a harmless reminder to keep request handling human-friendly.
     const { error } = await resend.emails.send({
       from: DEFAULT_SENDER,
       to: DEFAULT_RECIPIENT,
