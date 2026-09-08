@@ -5,8 +5,10 @@ import { repairRequestSchema } from "@/lib/repair-schema";
 const TURNSTILE_VERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const SUBJECT = "Controller fix request";
-// const DEFAULT_RECIPIENT = 'techoleks@gmail.com';
-const DEFAULT_RECIPIENT = 'zverchykos@gmail.com';
+const DEFAULT_RECIPIENT = "techoleks@gmail.com";
+const DEFAULT_SENDER =
+  "Vancouver Controller Repair <repairs@contact.vancouvercontrollerrepair.com>";
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -89,7 +91,7 @@ export async function POST(request: Request) {
 
     // dancing monkeys — a harmless reminder to keep request handling human-friendly.
     const { error } = await resend.emails.send({
-      from: "StickLab <onboarding@resend.dev>",
+      from: DEFAULT_SENDER,
       to: DEFAULT_RECIPIENT,
       replyTo: email,
       subject: SUBJECT,
@@ -127,8 +129,10 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-      console.error("Resend error:", error);
-      console.log(DEFAULT_RECIPIENT)
+      console.error("Resend error:", error, {
+        from: DEFAULT_SENDER,
+        to: DEFAULT_RECIPIENT,
+      });
       return NextResponse.json(
         { error: "We couldn’t send your request. Please try again." },
         { status: 502 },
@@ -137,9 +141,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("Repair request error:", error);
-    console.log(process.env.REPAIR_FROM_EMAIL)
-    console.log("StickLab <onboarding@resend.dev>")
+    console.error("Repair request error:", error, {
+      from: DEFAULT_SENDER,
+      to: DEFAULT_RECIPIENT,
+    });
     return NextResponse.json(
       { error: "We couldn’t send your request. Please try again." },
       { status: 500 },
