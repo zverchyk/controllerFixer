@@ -14,9 +14,21 @@ npm run dev
 ## Environment variables
 
 ```bash
-RESEND_API_KEY=your_resend_key      # required, sends the repair requests
-NEXT_PUBLIC_SITE_URL=https://...    # optional, your live domain for SEO links
+RESEND_API_KEY=your_resend_key          # required, sends the repair requests
+NEXT_PUBLIC_SITE_URL=https://...        # optional, your live domain for SEO links
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=...      # optional, shows the spam check widget
+TURNSTILE_SECRET_KEY=...                # optional, verifies it server-side
 ```
+
+## Spam protection
+
+Create a Cloudflare Turnstile widget for your domain and paste its two keys
+above. Use your real keys, not Cloudflare's demo keys — the demo keys render a
+"For testing only. If seen, report to site owner" notice on the widget.
+
+Without `NEXT_PUBLIC_TURNSTILE_SITE_KEY` the widget is not rendered at all, and
+without `TURNSTILE_SECRET_KEY` the server skips verification. In both cases the
+form still submits normally.
 
 ## Repair request emails
 
@@ -39,10 +51,12 @@ Drop images in `public/` and reference them from the code:
 
 ## Deployment
 
-On Vercel, import the repository and add `RESEND_API_KEY` in the project
-settings.
+On Vercel, import the repository and add the environment variables in the
+project settings.
 
 On Netlify, `netlify.toml` already sets the build command to `npm run build` and
-the publish directory to `.next`; add `RESEND_API_KEY` under Site configuration
-→ Environment variables. Keep the server build — a static export would break
-the `/api/repair-request` route the form posts to.
+the publish directory to `.next`; add the environment variables under Site
+configuration → Environment variables. Keep the server build — a static export
+would break the `/api/repair-request` route the form posts to. Note that
+`NEXT_PUBLIC_*` values are baked in at build time, so redeploy after changing
+them.
