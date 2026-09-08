@@ -1,5 +1,23 @@
+<<<<<<< HEAD
 node_modules/
 .next/
 .env
 .env.local
 .env.*
+=======
+# dependencies
+/node_modules
+
+# Next.js
+/.next/
+/out/
+
+# local environment files
+.env*
+!.env.example
+
+# logs and tooling
+*.log
+.DS_Store
+*.tsbuildinfo
+>>>>>>> cursor/controller-repair-site-6dc6
