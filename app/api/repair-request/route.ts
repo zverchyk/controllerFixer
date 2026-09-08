@@ -5,14 +5,9 @@ import { repairRequestSchema } from "@/lib/repair-schema";
 const TURNSTILE_VERIFY_URL =
   "https://challenges.cloudflare.com/turnstile/v0/siteverify";
 const SUBJECT = "Controller fix request";
-<<<<<<< HEAD
-const DEFAULT_RECIPIENT = 'techoleks@gmail.com';
-const DEFAULT_SENDER = 'Vancouver Controller Repair <repairs@contact.vancouvercontrollerrepair.com>';
-=======
 const DEFAULT_RECIPIENT = "techoleks@gmail.com";
 const DEFAULT_SENDER =
   "Vancouver Controller Repair <repairs@contact.vancouvercontrollerrepair.com>";
->>>>>>> cursor/controller-repair-site-6dc6
 
 function escapeHtml(value: string) {
   return value
@@ -134,15 +129,10 @@ export async function POST(request: Request) {
     });
 
     if (error) {
-<<<<<<< HEAD
-      console.error("Resend error:", error);
-      console.log(DEFAULT_RECIPIENT)
-=======
       console.error("Resend error:", error, {
         from: DEFAULT_SENDER,
         to: DEFAULT_RECIPIENT,
       });
->>>>>>> cursor/controller-repair-site-6dc6
       return NextResponse.json(
         { error: "We couldn’t send your request. Please try again." },
         { status: 502 },
@@ -151,16 +141,10 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-<<<<<<< HEAD
-    console.error("Repair request error:", error);
-    console.log(process.env.REPAIR_FROM_EMAIL)
-    console.log("StickLab <onboarding@resend.dev>")
-=======
     console.error("Repair request error:", error, {
       from: DEFAULT_SENDER,
       to: DEFAULT_RECIPIENT,
     });
->>>>>>> cursor/controller-repair-site-6dc6
     return NextResponse.json(
       { error: "We couldn’t send your request. Please try again." },
       { status: 500 },
