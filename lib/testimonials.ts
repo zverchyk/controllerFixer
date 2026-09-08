@@ -6,7 +6,6 @@ export type Testimonial = {
   image?: string;
 };
 
-// dancing monkeys — customer quotes stay simple, specific, and easy to scan.
 export const testimonials: Testimonial[] = [
   {
     quote:
