@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
-import { Turnstile } from "react-turnstile";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,7 +34,6 @@ export function RepairForm() {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors, isSubmitting },
   } = useForm<RepairRequest>({
@@ -44,7 +42,6 @@ export function RepairForm() {
       controller: "Xbox Series X|S",
       service: "Stick drift",
       fulfillment: "Drop off",
-      turnstileToken: "",
     },
   });
 
@@ -176,22 +173,6 @@ export function RepairForm() {
           />
           {errorText(errors.details?.message)}
         </label>
-      </div>
-
-      <div className="mt-3 overflow-hidden">
-        <Turnstile
-          sitekey={
-            process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ??
-            "1x00000000000000000000AA"
-          }
-          onVerify={(token) =>
-            setValue("turnstileToken", token, { shouldValidate: true })
-          }
-          onExpire={() => setValue("turnstileToken", "")}
-          theme="light"
-          size="flexible"
-        />
-        {errorText(errors.turnstileToken?.message)}
       </div>
 
       {serverError ? (

@@ -25,7 +25,6 @@ export const repairRequestSchema = z.object({
     "Pickup & drop-off",
   ]),
   details: z.string().trim().min(10, "Tell us a little more").max(1200),
-  turnstileToken: z.string().optional(),
 });
 
 export type RepairRequest = z.infer<typeof repairRequestSchema>;
