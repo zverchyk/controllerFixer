@@ -30,7 +30,12 @@ Cloudflare Turnstile is optional: set `NEXT_PUBLIC_TURNSTILE_SITE_KEY` and
 `TURNSTILE_SECRET_KEY` to switch spam checks on. Without them the form still
 submits and verification is skipped.
 
-## Vercel deployment
+## Deployment
 
-Import the repository into Vercel and add `RESEND_API_KEY` (plus the optional
+On Vercel, import the repository and add `RESEND_API_KEY` (plus the optional
 Turnstile keys) in the project settings.
+
+On Netlify, `netlify.toml` already sets the build command to `npm run build` and
+the publish directory to `.next`; add `RESEND_API_KEY` under Site configuration
+→ Environment variables. Keep the server build — a static export would break
+the `/api/repair-request` route the form posts to.
