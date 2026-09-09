@@ -19,6 +19,7 @@ import {
   type FeedbackCardVariant,
 } from "@/components/feedback-card";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
+import { Logo } from "@/components/logo";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 import { testimonials } from "@/lib/testimonials";
@@ -207,11 +208,8 @@ export function LandingPage() {
     <main className="overflow-hidden">
       <header className="absolute inset-x-0 top-0 z-50">
         <div className="page-shell flex h-20 items-center justify-between border-b border-white/10 text-white">
-          <a href="#" className="font-display flex items-center gap-2 text-lg font-bold">
-            <span className="flex size-8 items-center justify-center rounded-lg bg-[#b6ff2e] text-[#11120f]">
-              <Gamepad2 className="size-5" />
-            </span>
-            STICK<span className="text-[#b6ff2e]">LAB</span>
+          <a href="#" aria-label="Vancouver Controller Repair — home">
+            <Logo tone="light" />
           </a>
           <nav
             aria-label="Main navigation"
@@ -638,7 +636,7 @@ export function LandingPage() {
             </div>
             <div className="relative min-h-[360px] overflow-hidden bg-[#171815] lg:min-h-full">
               <iframe
-                title="StickLab service area in Vancouver"
+                title="Vancouver Controller Repair service area"
                 src="https://www.openstreetmap.org/export/embed.html?bbox=-123.18%2C49.24%2C-123.04%2C49.30&layer=mapnik&marker=49.2827%2C-123.1207"
                 className="absolute inset-0 h-full w-full border-0 opacity-85 grayscale-[0.25]"
                 loading="lazy"
@@ -668,11 +666,8 @@ export function LandingPage() {
 
       <footer className="border-t border-[#d9dad4]">
         <div className="page-shell flex flex-col gap-7 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <a href="#" className="font-display flex items-center gap-2 text-lg font-bold">
-            <span className="flex size-8 items-center justify-center rounded-lg bg-[#171815] text-[#b6ff2e]">
-              <Gamepad2 className="size-5" />
-            </span>
-            STICK<span className="text-[#70736b]">LAB</span>
+          <a href="#" aria-label="Vancouver Controller Repair — home">
+            <Logo />
           </a>
           <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-semibold text-[#6e706a]">
             <a className="hover:text-black" href="#xbox">

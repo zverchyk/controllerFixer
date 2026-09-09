@@ -1,4 +1,4 @@
-export const siteName = "StickLab";
+export const siteName = "Vancouver Controller Repair";
 
 export const siteDescription =
   "Same-day Xbox and PS5 controller stick drift repair in Vancouver. Joystick module repair from $25, Hall Effect upgrades for $40.";
