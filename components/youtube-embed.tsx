@@ -29,11 +29,7 @@ export function YouTubeEmbed({
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 text-center text-white/45">
           <Play className="size-9" strokeWidth={1.4} />
           <p className="text-xs font-bold uppercase tracking-[0.14em]">
-            YouTube video
-          </p>
-          <p className="max-w-xs px-6 text-xs leading-5">
-            Add the video ID to <code>HALL_EFFECT_VIDEO_ID</code> in
-            components/landing-page.tsx
+            Video coming soon
           </p>
         </div>
       </div>
@@ -62,7 +58,8 @@ export function YouTubeEmbed({
       className={cn(frame, "group cursor-pointer")}
     >
       <Image
-        src={`https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`}
+        // hqdefault exists for every video; maxresdefault often does not.
+        src={`https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`}
         alt=""
         fill
         sizes="(max-width: 1024px) 100vw, 560px"

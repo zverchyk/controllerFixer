@@ -447,21 +447,21 @@ export function LandingPage() {
               {...fadeUp}
               className="overflow-hidden rounded-[2rem] border border-[#ff5a5f]/40 bg-[#ff5a5f]/[0.08]"
             >
-              <div className="p-6 sm:p-8">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#ff5a5f] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
-                      <span className="size-2 rounded-full bg-white" />
-                      Red pill
-                    </span>
-                    <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
+              <div className="p-7 sm:p-9">
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#ff5a5f] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
+                  <span className="size-2 rounded-full bg-white" />
+                  Red pill
+                </span>
+                <div className="mt-6 flex items-end justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-3xl font-semibold tracking-[-0.04em]">
                       One joystick
                     </h3>
                     <p className="mt-2 text-sm text-white/55">
                       Fix the stick that drifts
                     </p>
                   </div>
-                  <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#ff7175]">
+                  <p className="font-display shrink-0 text-5xl font-semibold leading-none tracking-[-0.06em] text-[#ff7175] sm:text-6xl">
                     $25
                   </p>
                 </div>
@@ -473,21 +473,21 @@ export function LandingPage() {
               transition={{ duration: 0.5, delay: 0.08 }}
               className="overflow-hidden rounded-[2rem] border border-[#627dff]/45 bg-[#627dff]/[0.1]"
             >
-              <div className="p-6 sm:p-8">
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div>
-                    <span className="inline-flex items-center gap-2 rounded-full bg-[#627dff] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
-                      <span className="size-2 rounded-full bg-white" />
-                      Blue pill
-                    </span>
-                    <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
+              <div className="p-7 sm:p-9">
+                <span className="inline-flex items-center gap-2 rounded-full bg-[#627dff] px-3 py-1.5 text-[0.65rem] font-extrabold uppercase tracking-[0.14em] text-white">
+                  <span className="size-2 rounded-full bg-white" />
+                  Blue pill
+                </span>
+                <div className="mt-6 flex items-end justify-between gap-4">
+                  <div className="min-w-0">
+                    <h3 className="font-display text-3xl font-semibold tracking-[-0.04em]">
                       A pair
                     </h3>
                     <p className="mt-2 text-sm text-white/55">
                       Change both sticks in one visit
                     </p>
                   </div>
-                  <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#8da0ff]">
+                  <p className="font-display shrink-0 text-5xl font-semibold leading-none tracking-[-0.06em] text-[#8da0ff] sm:text-6xl">
                     $40
                   </p>
                 </div>

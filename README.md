@@ -39,6 +39,12 @@ the customer. Both addresses live as `DEFAULT_RECIPIENT` and `DEFAULT_SENDER` at
 the top of `app/api/repair-request/route.ts`; the sender domain has to stay
 verified in Resend.
 
+## Adding the Hall Effect video
+
+Set `HALL_EFFECT_VIDEO_ID` in `components/landing-page.tsx` to the ID from the
+YouTube URL — for `https://www.youtube.com/watch?v=dQw4w9WgXcQ` that is
+`dQw4w9WgXcQ`. Until it is set, the section shows a "Video coming soon" block.
+
 ## Adding your own photos
 
 Drop images in `public/` and reference them from the code:
