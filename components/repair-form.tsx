@@ -20,9 +20,8 @@ const controllers = [
 ] as const;
 
 const services = [
-  { value: "Stick drift", label: "Repair old joystick module — $25" },
-  { value: "Hall Effect upgrade", label: "Hall Effect upgrade — $40" },
-  { value: "Joystick replacement", label: "Joystick replacement" },
+  { value: "One joystick", label: "One joystick — $25" },
+  { value: "Both joysticks", label: "Both joysticks — $40" },
   { value: "Buttons", label: "Buttons" },
   { value: "Triggers / bumpers", label: "Triggers / bumpers" },
   { value: "USB-C / charging", label: "USB-C / charging" },
@@ -46,7 +45,7 @@ export function RepairForm() {
     resolver: zodResolver(repairRequestSchema),
     defaultValues: {
       controller: "Xbox Series X|S",
-      service: "Stick drift",
+      service: "One joystick",
       fulfillment: "Drop off",
       turnstileToken: "",
     },
