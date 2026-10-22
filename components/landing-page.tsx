@@ -7,10 +7,8 @@ import {
   Gamepad2,
   MapPin,
   Menu,
-  Play,
   ShieldCheck,
   Truck,
-  X,
 } from "lucide-react";
 import { motion } from "motion/react";
 import Image from "next/image";
@@ -20,12 +18,17 @@ import {
 } from "@/components/feedback-card";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
 import { Logo } from "@/components/logo";
+import { YouTubeEmbed } from "@/components/youtube-embed";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 import { testimonials } from "@/lib/testimonials";
 
 // Swap this number (1-6) to change the feedback card design site-wide.
 const FEEDBACK_CARD_VARIANT: FeedbackCardVariant = 3;
+
+// YouTube video ID for the Hall Effect explainer, e.g. "dQw4w9WgXcQ" from
+// https://www.youtube.com/watch?v=dQw4w9WgXcQ.
+const HALL_EFFECT_VIDEO_ID = "";
 
 // Add an image path (e.g. "/gallery/xbox-series.jpg") to replace a placeholder.
 const gallery: { label: string; image?: string }[] = [
@@ -271,8 +274,8 @@ export function LandingPage() {
               Vancouver · Same-day service
             </div>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/60">
-              Same-day fix for Xbox and PS5 controllers. Repair your current
-              joystick for $25 or upgrade to Hall Effect for $40.
+              Same-day fix for Xbox and PS5 controllers. $25 for one joystick,
+              $40 for a pair.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -314,7 +317,7 @@ export function LandingPage() {
                   FROM $25
                 </p>
                 <p className="mt-1 text-xs font-semibold opacity-55">
-                  Repair or Hall Effect upgrade
+                  One joystick, or $40 a pair
                 </p>
               </div>
               <ShieldCheck className="size-9" />
@@ -389,6 +392,38 @@ export function LandingPage() {
         </div>
       </section>
 
+      <section id="hall-effect" className="scroll-mt-20 py-20 sm:py-24">
+        <div className="page-shell grid items-center gap-10 lg:grid-cols-[1fr_1.1fr]">
+          <motion.div {...fadeUp}>
+            <span className="eyebrow">The technology</span>
+            <h2 className="font-display mt-4 text-4xl font-semibold leading-[1.04] tracking-[-0.04em] sm:text-5xl">
+              What is a Hall Effect joystick?
+            </h2>
+            <p className="mt-5 text-base leading-7 text-[#686b64]">
+              A stock joystick works by dragging a tiny contact across a carbon
+              strip. That strip wears down with every match, the readings get
+              noisy, and the controller starts reading movement you never made.
+              That is stick drift.
+            </p>
+            <p className="mt-4 text-base leading-7 text-[#686b64]">
+              A Hall Effect joystick measures a magnetic field instead. Nothing
+              inside it rubs against anything, so there is no surface left to
+              wear out — which is why these modules keep their accuracy for
+              years instead of months.
+            </p>
+            <p className="mt-6 text-xs font-bold uppercase tracking-[0.14em] text-[#777a73]">
+              No contact · No wear · No drift
+            </p>
+          </motion.div>
+          <motion.div {...fadeUp} transition={{ duration: 0.5, delay: 0.08 }}>
+            <YouTubeEmbed
+              videoId={HALL_EFFECT_VIDEO_ID}
+              title="What is a Hall Effect joystick?"
+            />
+          </motion.div>
+        </div>
+      </section>
+
       <section
         id="choose"
         className="scroll-mt-20 bg-[#0c0d0b] py-20 text-white"
@@ -402,8 +437,8 @@ export function LandingPage() {
               Choose your pill.
             </h2>
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/55">
-              Keep the original joystick alive for less, or install a magnetic
-              Hall Effect module built to resist future drift.
+              Drift usually starts in one stick. Replace just that one, or do
+              both in the same visit and forget about it.
             </p>
           </div>
 
@@ -420,59 +455,15 @@ export function LandingPage() {
                       Red pill
                     </span>
                     <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
-                      Dirty Cheap Fix
+                      One joystick
                     </h3>
                     <p className="mt-2 text-sm text-white/55">
-                      Repair the old joystick module
+                      Fix the stick that drifts
                     </p>
                   </div>
                   <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#ff7175]">
                     $25
                   </p>
-                </div>
-
-                <div className="mt-7 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-2">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#82e8a0]">
-                      Benefits
-                    </p>
-                    <ul className="mt-3 space-y-2.5">
-                      {[
-                        "Saves money while bringing the controller back to normal use",
-                      ].map((item) => (
-                          <li key={item} className="flex gap-2 text-sm text-white/75">
-                            <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
-                            {item}
-                          </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#ff8589]">
-                      Downsides
-                    </p>
-                    <ul className="mt-3 space-y-2.5">
-                      {[
-                        "Stick drift can come back over time",
-                        "Repeated repairs may eventually cost more",
-                        "It is a repair, not a long-term upgrade",
-                      ].map((item) => (
-                        <li key={item} className="flex gap-2 text-sm text-white/75">
-                          <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex aspect-video items-center justify-center border-t border-white/10 bg-black/35">
-                <div className="text-center text-white/45">
-                  <Play className="mx-auto size-9" strokeWidth={1.4} />
-                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em]">
-                    Repair explanation video
-                  </p>
-                  <p className="mt-1 text-xs">Your video goes here</p>
                 </div>
               </div>
             </motion.article>
@@ -490,58 +481,15 @@ export function LandingPage() {
                       Blue pill
                     </span>
                     <h3 className="font-display mt-5 text-3xl font-semibold tracking-[-0.04em]">
-                      Affordable Upgrade
+                      A pair
                     </h3>
                     <p className="mt-2 text-sm text-white/55">
-                      Change to a new Hall Effect module
+                      Change both sticks in one visit
                     </p>
                   </div>
                   <p className="font-display text-6xl font-semibold tracking-[-0.06em] text-[#8da0ff]">
                     $40
                   </p>
-                </div>
-
-                <div className="mt-7 grid gap-6 border-t border-white/10 pt-6 sm:grid-cols-2">
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#82e8a0]">
-                      Benefits
-                    </p>
-                    <ul className="mt-3 space-y-2.5">
-                      {[
-                        "More reliable for heavy gaming",
-                        "Uses magnetic sensors instead of physical contact",
-                        "Longer lifespan than standard potentiometer joysticks",
-                        "Permanent resistant to stick drift",
-                      ].map((item) => (
-                        <li key={item} className="flex gap-2 text-sm text-white/75">
-                          <Check className="mt-0.5 size-4 shrink-0 text-[#82e8a0]" />
-                          {item}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold uppercase tracking-wider text-[#ff8589]">
-                      Downsides
-                    </p>
-                    <ul className="mt-3 space-y-2.5">
-                      {["Costs $15 more"].map((item) => (
-                          <li key={item} className="flex gap-2 text-sm text-white/75">
-                            <X className="mt-0.5 size-4 shrink-0 text-[#ff8589]" />
-                            {item}
-                          </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </div>
-              <div className="flex aspect-video items-center justify-center border-t border-white/10 bg-black/35">
-                <div className="text-center text-white/45">
-                  <Play className="mx-auto size-9" strokeWidth={1.4} />
-                  <p className="mt-3 text-xs font-bold uppercase tracking-[0.14em]">
-                    Upgrade explanation video
-                  </p>
-                  <p className="mt-1 text-xs">Your video goes here</p>
                 </div>
               </div>
             </motion.article>
