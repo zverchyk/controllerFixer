@@ -4,6 +4,8 @@ export type Testimonial = {
   repair: string;
   rating?: number;
   date?: string;
+  format?: "text" | "screenshot";
+  screenshot?: string;
   // Drop a file in /public/feedback and point here, e.g. "/feedback/marcus.jpg".
   image?: string;
 };

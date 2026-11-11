@@ -72,8 +72,8 @@ review. That does not change the name stored on the link.
 
 Gallery photos have a date, and the home page shows the newest pictures first,
 nine slots at a time. Written feedback has a display date. Screenshot reviews
-can be stored from the admin page and stay off the homepage until a public card
-design is chosen. `/shop` is a coming-soon page linked from the header.
+are stored from the admin page and appear in the same feedback carousel.
+`/shop` is a coming-soon page linked from the header.
 Video links stay on Traditional, Hall Effect, and TMR, and show on the matching
 card. A joystick with no video keeps its “Video coming soon” block. Photos added
 under “Controllers we’ve brought back” replace the gallery placeholders.

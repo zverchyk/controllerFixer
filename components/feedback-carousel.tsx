@@ -20,12 +20,14 @@ export function FeedbackCarousel<T>({
   renderItem,
   label,
   autoAdvanceMs,
+  paused = false,
   className,
 }: {
   items: readonly T[];
   renderItem: (item: T, focused: boolean) => ReactNode;
   label?: string;
   autoAdvanceMs?: number;
+  paused?: boolean;
   className?: string;
 }) {
   const [index, setIndex] = useState(0);
@@ -126,11 +128,11 @@ export function FeedbackCarousel<T>({
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const timer = window.setInterval(() => {
-      if (!pausedRef.current) move(1);
+      if (!pausedRef.current && !paused) move(1);
     }, autoAdvanceMs);
 
     return () => window.clearInterval(timer);
-  }, [autoAdvanceMs, move]);
+  }, [autoAdvanceMs, move, paused]);
 
   const cards = Array.from(
     { length: SIDE_CARDS * 2 + 1 },

@@ -9,6 +9,7 @@ import {
   ShieldCheck,
   Truck,
 } from "lucide-react";
+import { useState } from "react";
 import { motion } from "motion/react";
 import Image from "next/image";
 import {
@@ -17,6 +18,7 @@ import {
 } from "@/components/feedback-card";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
 import { RepairGallery } from "@/components/repair-gallery";
+import { ScreenshotLightbox } from "@/components/screenshot-lightbox";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { YouTubeEmbed } from "@/components/youtube-embed";
@@ -160,18 +162,21 @@ export function LandingPage({
   content?: SiteContent;
 } = {}) {
   const feedbackItems =
-    content.feedback.some((item) => item.format !== "screenshot" && item.quote)
-      ? content.feedback
-          .filter((item) => item.format !== "screenshot")
-          .map((item) => ({
-            quote: item.quote,
-            name: item.name,
-            repair: item.repair ?? "",
-            rating: item.rating,
-            date: formatDisplayDate(item.shownOn || item.createdAt),
-            image: item.images[0],
-          }))
+    content.feedback.length > 0
+      ? content.feedback.map((item) => ({
+          quote: item.quote,
+          name: item.name,
+          repair: item.repair ?? "",
+          rating: item.rating,
+          date: formatDisplayDate(item.shownOn || item.createdAt),
+          image: item.images[0],
+          format: item.format,
+          screenshot: item.screenshot,
+        }))
       : fallbackTestimonials;
+  const [openScreenshot, setOpenScreenshot] = useState<(typeof feedbackItems)[number] | null>(
+    null,
+  );
 
   return (
     <main className="overflow-hidden">
@@ -500,14 +505,24 @@ export function LandingPage({
           items={feedbackItems}
           label="Customer feedback"
           autoAdvanceMs={5000}
+          paused={openScreenshot !== null}
           className="mt-12"
           renderItem={(testimonial) => (
             <FeedbackCard
               testimonial={testimonial}
               variant={FEEDBACK_CARD_VARIANT}
+              onOpenScreenshot={() => setOpenScreenshot(testimonial)}
             />
           )}
         />
+        {openScreenshot?.screenshot ? (
+          <ScreenshotLightbox
+            src={openScreenshot.screenshot}
+            name={openScreenshot.name}
+            date={openScreenshot.date}
+            onClose={() => setOpenScreenshot(null)}
+          />
+        ) : null}
       </section>
 
       <section className="py-[106px] sm:py-[114px]">

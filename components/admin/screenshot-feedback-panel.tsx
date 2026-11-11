@@ -92,8 +92,8 @@ export function ScreenshotFeedbackPanel({
         Screenshot feedback
       </h2>
       <p className="mt-1 text-sm leading-6 text-[#73756f]">
-        Save a photo of a review or conversation. It is stored with your other
-        feedback and stays off the homepage until a public card design is chosen.
+        Save a photo of a review or conversation. It appears in the customer
+        feedback section with the written reviews.
       </p>
       <form
         key={editing?.id ?? "new-screenshot"}

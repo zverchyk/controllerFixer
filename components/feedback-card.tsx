@@ -245,13 +245,74 @@ export const feedbackCardOptions = [
   { variant: 6 as const, name: "Small photo in footer", component: PhotoThumb },
 ];
 
+function ScreenshotBanner({
+  testimonial,
+  onOpen,
+}: {
+  testimonial: Testimonial;
+  onOpen: () => void;
+}) {
+  const label = testimonial.name
+    ? `Open screenshot from ${testimonial.name}`
+    : "Open customer screenshot";
+
+  return (
+    <figure className={cn(shell, "flex h-full min-h-[380px] flex-col")}>
+      <button
+        type="button"
+        onClick={onOpen}
+        aria-label={label}
+        className="flex h-full w-full flex-col text-left outline-none focus-visible:ring-2 focus-visible:ring-[#b6ff2e] focus-visible:ring-offset-2"
+      >
+        <span className="relative min-h-44 w-full flex-1 overflow-hidden bg-[#e4e5df]">
+          {testimonial.screenshot ? (
+            <Image
+              src={testimonial.screenshot}
+              alt=""
+              fill
+              sizes="(max-width: 640px) 78vw, 470px"
+              className="object-cover"
+            />
+          ) : null}
+        </span>
+        <span className="border-t border-[#e3e4df] px-7 py-5">
+          <span className="block text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span
+                className={cn(
+                  "text-xs font-medium text-[#9a9c95]",
+                  testimonial.name && "ml-2",
+                )}
+              >
+                {testimonial.date}
+              </span>
+            ) : null}
+          </span>
+        </span>
+      </button>
+    </figure>
+  );
+}
+
 export function FeedbackCard({
   testimonial,
   variant,
+  onOpenScreenshot,
 }: {
   testimonial: Testimonial;
   variant: FeedbackCardVariant;
+  onOpenScreenshot?: () => void;
 }) {
+  if (testimonial.format === "screenshot" && testimonial.screenshot) {
+    return (
+      <ScreenshotBanner
+        testimonial={testimonial}
+        onOpen={() => onOpenScreenshot?.()}
+      />
+    );
+  }
+
   const option =
     feedbackCardOptions.find((entry) => entry.variant === variant) ??
     feedbackCardOptions[0];
