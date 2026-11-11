@@ -9,6 +9,7 @@ import {
   isFeedbackLinkStatus,
   isFeedbackToken,
   pageKind,
+  vancouverToday,
   type FeedbackDisplayStatus,
   type FeedbackLinkStatus,
   type FeedbackPageKind,
@@ -22,6 +23,7 @@ export type FeedbackRequestSummary = {
   repair: string;
   repairDate: string;
   message: string;
+  displayName?: string;
   status: FeedbackLinkStatus;
   displayStatus: FeedbackDisplayStatus;
   rating?: number;
@@ -51,6 +53,8 @@ type RequestRecord = {
   repair: string;
   repairDate: string;
   message?: string;
+  displayName?: string;
+  shownOn?: string;
   status: string;
   issuedAt?: string;
   submittedAt?: string;
@@ -78,6 +82,8 @@ const REQUEST_FIELDS = `{
   repair,
   repairDate,
   message,
+  displayName,
+  shownOn,
   status,
   issuedAt,
   submittedAt,
@@ -109,6 +115,7 @@ function summaryFrom(row: RequestRecord): FeedbackRequestSummary {
     repair: row.repair,
     repairDate: row.repairDate,
     message: row.message ?? "",
+    displayName: row.displayName?.trim() || undefined,
     status,
     displayStatus: displayStatus({
       status,
@@ -265,10 +272,12 @@ export async function approveFeedbackRequest(id: string) {
   const published = await writeClient().create({
     _type: "testimonial",
     quote: current.quote,
-    name: current.customerName,
+    name: current.displayName?.trim() || current.customerName,
     repair,
     rating: current.rating,
     status: "approved",
+    format: "text",
+    shownOn: current.shownOn,
     images: current.images ?? [],
   });
 
@@ -292,6 +301,7 @@ export async function submitFeedbackRequest(input: {
   token: string;
   rating: number;
   quote: string;
+  displayName: string;
   images: SanityImageAsset[];
 }): Promise<{ ok: true } | { error: SubmitError }> {
   const current = await getFeedbackRequestByToken(input.token);
@@ -312,6 +322,8 @@ export async function submitFeedbackRequest(input: {
       .set({
         status: "submitted",
         submittedAt: new Date().toISOString(),
+        displayName: input.displayName,
+        shownOn: vancouverToday(),
         rating: input.rating,
         quote: input.quote,
         images: input.images,

@@ -36,6 +36,8 @@ export const feedbackRequest = {
       validation: (rule: { required: () => unknown }) => rule.required(),
     },
     { name: "message", title: "Personal note", type: "text", rows: 3 },
+    { name: "displayName", title: "Name shown on the review", type: "string" },
+    { name: "shownOn", title: "Review date", type: "date" },
     {
       name: "status",
       title: "Status",

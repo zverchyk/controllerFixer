@@ -11,6 +11,7 @@ const TURNSTILE_VERIFY_URL =
 const fields = z.object({
   rating: z.coerce.number().int().min(1).max(5),
   quote: z.string().trim().min(10, "Tell us a little more about the repair.").max(800),
+  displayName: z.string().trim().min(2, "Add the name you want shown.").max(60),
   website: z.string().optional(),
   started: z.coerce.number(),
   turnstileToken: z.string().optional(),
@@ -79,6 +80,7 @@ export async function POST(
   const parsed = fields.safeParse({
     rating: form.get("rating"),
     quote: form.get("quote"),
+    displayName: form.get("displayName"),
     website: form.get("website") || undefined,
     started: form.get("started"),
     turnstileToken: form.get("turnstileToken") || undefined,
@@ -132,6 +134,7 @@ export async function POST(
       token,
       rating: parsed.data.rating,
       quote: parsed.data.quote,
+      displayName: parsed.data.displayName,
       images: uploaded.images,
     });
 

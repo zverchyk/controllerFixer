@@ -14,6 +14,9 @@ import {
   Video,
 } from "lucide-react";
 import { FeedbackRequestsPanel } from "@/components/admin/feedback-requests-panel";
+import { ScreenshotFeedbackPanel } from "@/components/admin/screenshot-feedback-panel";
+import { dateInputValue, formatDisplayDate } from "@/lib/dates";
+import { vancouverToday } from "@/lib/feedback-invite";
 import { Button } from "@/components/ui/button";
 import { LogoMark } from "@/components/logo";
 import { joystickTypes, type JoystickKey } from "@/lib/joysticks";
@@ -180,6 +183,22 @@ function FeedbackEditor({
             defaultValue={editing?.repair ?? ""}
             className="field"
             placeholder="Hall Effect upgrade"
+          />
+        </label>
+        <label className="block">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+            Date
+          </span>
+          <input
+            name="shownOn"
+            type="date"
+            required
+            defaultValue={
+              editing
+                ? dateInputValue(editing.shownOn || editing.createdAt)
+                : vancouverToday()
+            }
+            className="field"
           />
         </label>
         <label className="block sm:col-span-2">
@@ -361,11 +380,11 @@ function FeedbackPanel({
           }}
         />
       </div>
-      {feedback.length === 0 ? (
+      {feedback.filter((item) => item.format !== "screenshot").length === 0 ? (
         <p className="mt-4 text-sm text-[#73756f]">No feedback published yet.</p>
       ) : (
         <ul className="mt-4 grid gap-3 sm:grid-cols-2">
-          {feedback.map((item) => (
+          {feedback.filter((item) => item.format !== "screenshot").map((item) => (
             <li
               key={item.id}
               className="flex gap-4 rounded-2xl border border-[#e0e1db] p-4"
@@ -394,7 +413,7 @@ function FeedbackPanel({
                   ) : null}
                 </p>
                 <p className="text-xs text-[#9a9c95]">
-                  {when(item.createdAt)}
+                  {formatDisplayDate(item.shownOn || item.createdAt) || when(item.createdAt)}
                   {item.rating ? ` · ${item.rating}/5` : ""}
                   {item.images.length > 1 ? ` · ${item.images.length} photos` : ""}
                 </p>
@@ -580,6 +599,26 @@ function GalleryPanel({
     onChange();
   }
 
+  async function saveDate(event: React.FormEvent<HTMLFormElement>, id: string) {
+    event.preventDefault();
+    setPending(id);
+    setStatus(null);
+    const takenOn = new FormData(event.currentTarget).get("takenOn");
+    const response = await fetch("/api/admin/gallery", {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id, takenOn }),
+    });
+    setPending(null);
+    if (!response.ok) {
+      const result = (await response.json().catch(() => null)) as { error?: string } | null;
+      setStatus({ tone: "error", message: result?.error ?? "Could not update the date." });
+      return;
+    }
+    setStatus({ tone: "ok", message: "Gallery date saved." });
+    onChange();
+  }
+
   async function remove(id: string) {
     setPending(id);
     setStatus(null);
@@ -606,6 +645,18 @@ function GalleryPanel({
         These photos fill the gallery on the home page.
       </p>
       <form ref={formRef} onSubmit={onSubmit} className="mt-5 rounded-3xl bg-[#f7f7f4] p-5">
+        <label className="mb-4 block">
+          <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
+            Date
+          </span>
+          <input
+            name="takenOn"
+            type="date"
+            required
+            defaultValue={vancouverToday()}
+            className="field sm:max-w-xs"
+          />
+        </label>
         <label className="block">
           <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Photos
@@ -652,24 +703,39 @@ function GalleryPanel({
       ) : (
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
           {images.map((image) => (
-            <li
-              key={image.id}
-              className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#e4e5df]"
-            >
-              <Image src={image.url} alt="" fill sizes="240px" className="object-cover" />
-              <button
-                type="button"
-                aria-label="Delete gallery photo"
-                disabled={pending === image.id}
-                onClick={() => remove(image.id)}
-                className="absolute right-2 top-2 rounded-full bg-white/90 p-2 text-[#11120f] hover:bg-red-50 hover:text-red-600"
+            <li key={image.id} className="rounded-2xl border border-[#e0e1db] p-2">
+              <div className="relative aspect-[4/3] overflow-hidden rounded-xl bg-[#e4e5df]">
+                <Image src={image.url} alt="" fill sizes="240px" className="object-cover" />
+                <button
+                  type="button"
+                  aria-label="Delete gallery photo"
+                  disabled={pending === image.id}
+                  onClick={() => remove(image.id)}
+                  className="absolute right-2 top-2 rounded-full bg-white/90 p-2 text-[#11120f] hover:bg-red-50 hover:text-red-600"
+                >
+                  {pending === image.id ? (
+                    <LoaderCircle className="size-4 animate-spin" />
+                  ) : (
+                    <Trash2 className="size-4" />
+                  )}
+                </button>
+              </div>
+              <form
+                className="mt-2 flex items-center gap-2"
+                onSubmit={(event) => saveDate(event, image.id)}
               >
-                {pending === image.id ? (
-                  <LoaderCircle className="size-4 animate-spin" />
-                ) : (
-                  <Trash2 className="size-4" />
-                )}
-              </button>
+                <input
+                  name="takenOn"
+                  type="date"
+                  required
+                  defaultValue={dateInputValue(image.takenOn || image.createdAt)}
+                  aria-label={`Date for gallery photo ${formatDisplayDate(image.takenOn || image.createdAt)}`}
+                  className="field py-1.5 text-xs"
+                />
+                <Button type="submit" size="sm" variant="dark" disabled={pending === image.id}>
+                  Save
+                </Button>
+              </form>
             </li>
           ))}
         </ul>
@@ -734,6 +800,11 @@ export function AdminDashboard({
 
         <FeedbackPanel
           feedback={content.feedback}
+          onChange={() => router.refresh()}
+        />
+
+        <ScreenshotFeedbackPanel
+          shots={content.feedback.filter((item) => item.format === "screenshot")}
           onChange={() => router.refresh()}
         />
 

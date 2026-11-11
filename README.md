@@ -67,7 +67,13 @@ only adds a star rating, a review, and optional photos. Each link accepts one
 submission, expires after 90 days if it is unused, and can be turned off or
 replaced. Approve the review to publish it on the site, or delete it. These
 invites are stored as Sanity drafts so the public dataset does not list the
-links or the customer details.
+links or the customer details. The customer can change the name shown on the
+review. That does not change the name stored on the link.
+
+Gallery photos have a date, and the home page shows the newest pictures first,
+nine slots at a time. Written feedback has a display date. Screenshot reviews
+can be stored from the admin page and stay off the homepage until a public card
+design is chosen. `/shop` is a coming-soon page linked from the header.
 Video links stay on Traditional, Hall Effect, and TMR, and show on the matching
 card. A joystick with no video keeps its “Video coming soon” block. Photos added
 under “Controllers we’ve brought back” replace the gallery placeholders.
@@ -79,8 +85,11 @@ under “Controllers we’ve brought back” replace the gallery placeholders.
 2. Create an API token with Editor permissions and put it in `SANITY_API_TOKEN`.
    This token is only read on the server.
 3. In the Sanity project, add the document types from `sanity/schemaTypes`
-   (`testimonial` and `joystickVideo`) so the studio shows the same fields the
-   site writes. The site can save content through the API either way.
+   (`testimonial`, `joystickVideo`, `galleryImage`, and `feedbackRequest`) so
+   the studio shows the same fields the site writes. The site can save content
+   through the API either way. New fields are `takenOn` on bench photos,
+   `shownOn`, `format`, and `screenshot` on feedback, and `displayName` plus
+   `shownOn` on feedback links.
 4. Redeploy after setting the variables. `NEXT_PUBLIC_SANITY_PROJECT_ID` is
    baked in at build time.
 

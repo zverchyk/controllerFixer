@@ -11,6 +11,7 @@ export const galleryImage = {
       options: { hotspot: true },
       validation: (rule: { required: () => unknown }) => rule.required(),
     },
+    { name: "takenOn", title: "Date", type: "date" },
   ],
   preview: {
     select: { media: "image" },

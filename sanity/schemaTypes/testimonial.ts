@@ -19,6 +19,24 @@ export const testimonial = {
       validation: (rule: { required: () => unknown }) => rule.required(),
     },
     { name: "repair", title: "Repair", type: "string" },
+    { name: "shownOn", title: "Display date", type: "date" },
+    {
+      name: "format",
+      title: "Format",
+      type: "string",
+      options: {
+        list: [
+          { title: "Written review", value: "text" },
+          { title: "Screenshot", value: "screenshot" },
+        ],
+      },
+    },
+    {
+      name: "screenshot",
+      title: "Screenshot",
+      type: "image",
+      options: { hotspot: true },
+    },
     {
       name: "rating",
       title: "Star rating",

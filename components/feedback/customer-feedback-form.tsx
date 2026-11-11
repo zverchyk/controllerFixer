@@ -95,12 +95,19 @@ export function CustomerFeedbackForm({ invite }: { invite: ReadyInvite }) {
       </div>
 
       <dl className="mt-6 grid gap-3 rounded-2xl bg-[#f6f6f3] p-4 text-sm sm:grid-cols-3">
-        <div>
-          <dt className="text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#8a8c85]">
+        <label>
+          <span className="text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#8a8c85]">
             Name
-          </dt>
-          <dd className="mt-1 font-semibold">{invite.customerName}</dd>
-        </div>
+          </span>
+          <input
+            name="displayName"
+            required
+            minLength={2}
+            maxLength={60}
+            defaultValue={invite.customerName}
+            className="field mt-1 bg-white"
+          />
+        </label>
         <div>
           <dt className="text-[0.65rem] font-bold uppercase tracking-[0.12em] text-[#8a8c85]">
             Controller

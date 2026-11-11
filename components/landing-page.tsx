@@ -6,7 +6,6 @@ import {
   Check,
   Gamepad2,
   MapPin,
-  Menu,
   ShieldCheck,
   Truck,
 } from "lucide-react";
@@ -17,10 +16,13 @@ import {
   type FeedbackCardVariant,
 } from "@/components/feedback-card";
 import { FeedbackCarousel } from "@/components/feedback-carousel";
-import { Logo } from "@/components/logo";
+import { RepairGallery } from "@/components/repair-gallery";
+import { SiteFooter } from "@/components/site-footer";
+import { SiteHeader } from "@/components/site-header";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
+import { formatDisplayDate } from "@/lib/dates";
 import { joystickTypes, parseYouTubeId } from "@/lib/joysticks";
 import { testimonials as fallbackTestimonials } from "@/lib/testimonials";
 import type { SiteContent, StoredVideo } from "@/lib/sanity";
@@ -158,54 +160,22 @@ export function LandingPage({
   content?: SiteContent;
 } = {}) {
   const feedbackItems =
-    content.feedback.length > 0
-      ? content.feedback.map((item) => ({
-          quote: item.quote,
-          name: item.name,
-          repair: item.repair ?? "",
-          rating: item.rating,
-          image: item.images[0],
-        }))
+    content.feedback.some((item) => item.format !== "screenshot" && item.quote)
+      ? content.feedback
+          .filter((item) => item.format !== "screenshot")
+          .map((item) => ({
+            quote: item.quote,
+            name: item.name,
+            repair: item.repair ?? "",
+            rating: item.rating,
+            date: formatDisplayDate(item.shownOn || item.createdAt),
+            image: item.images[0],
+          }))
       : fallbackTestimonials;
 
   return (
     <main className="overflow-hidden">
-      <header className="absolute inset-x-0 top-0 z-50">
-        <div className="page-shell flex h-20 items-center justify-between border-b border-white/10 text-white">
-          <a href="#" aria-label="Vancouver Controller Repair — home">
-            <Logo tone="light" />
-          </a>
-          <nav
-            aria-label="Main navigation"
-            className="hidden items-center gap-7 text-sm font-semibold text-white/70 md:flex"
-          >
-            <a className="transition-colors hover:text-white" href="#controllers">
-              Controllers
-            </a>
-            <a className="transition-colors hover:text-white" href="#joysticks">
-              Joystick Types
-            </a>
-            <a className="transition-colors hover:text-white" href="#choose">
-              Repair Options
-            </a>
-            <a className="transition-colors hover:text-white" href="#contact">
-              Contact
-            </a>
-          </nav>
-          <Button asChild size="sm" className="hidden sm:inline-flex">
-            <a href="#contact">
-              Start a repair <ArrowRight className="size-3.5" />
-            </a>
-          </Button>
-          <a
-            href="#contact"
-            aria-label="Go to repair request"
-            className="flex size-10 items-center justify-center rounded-full border border-white/20 sm:hidden"
-          >
-            <Menu className="size-5" />
-          </a>
-        </div>
-      </header>
+      <SiteHeader />
 
       <section className="relative flex min-h-[100svh] items-center overflow-hidden bg-[#10110f] pb-8 pt-24 text-white sm:h-[100svh] sm:min-h-[640px] sm:pb-10">
         <div className="absolute inset-0 grid-noise opacity-60" />
@@ -553,45 +523,22 @@ export function LandingPage({
               Gallery
             </span>
           </div>
-          <div className="mt-7 grid grid-cols-2 gap-3 md:grid-cols-3">
-            {(content.gallery.length > 0
-              ? content.gallery.map((shot) => ({
-                  key: shot.id,
-                  label: "Repaired controller",
-                  image: shot.url,
-                }))
-              : gallery.map((shot) => ({
-                  key: shot.label,
-                  label: shot.label,
-                  image: shot.image,
-                }))
-            ).map(({ key, label, image }, index) => (
-              <motion.div
-                key={key}
-                {...fadeUp}
-                transition={{ duration: 0.4, delay: index * 0.04 }}
-                className="relative flex min-h-32 items-center justify-center overflow-hidden rounded-2xl border border-[#d8d9d3] bg-[#e9eae5] p-4 text-center transition-transform duration-300 hover:scale-[1.025] sm:min-h-44"
-              >
-                {image ? (
-                  <Image
-                    src={image}
-                    alt={label}
-                    fill
-                    sizes="(max-width: 768px) 50vw, 33vw"
-                    className="object-cover"
-                  />
-                ) : (
-                  <div className="text-[#777a73]">
-                    <Camera className="mx-auto size-7" strokeWidth={1.5} />
-                    <p className="mt-3 text-xs font-bold uppercase tracking-[0.12em]">
-                      Photo placeholder
-                    </p>
-                    <p className="mt-1 text-xs">{label}</p>
-                  </div>
-                )}
-              </motion.div>
-            ))}
-          </div>
+          <RepairGallery
+            shots={
+              content.gallery.length > 0
+                ? content.gallery.map((shot) => ({
+                    key: shot.id,
+                    label: "Repaired controller",
+                    image: shot.url,
+                    date: shot.takenOn || shot.createdAt,
+                  }))
+                : gallery.map((shot) => ({
+                    key: shot.label,
+                    label: shot.label,
+                    image: shot.image,
+                  }))
+            }
+          />
         </div>
       </section>
 
@@ -636,30 +583,7 @@ export function LandingPage({
         </div>
       </section>
 
-      <footer className="border-t border-[#d9dad4]">
-        <div className="page-shell flex flex-col gap-7 py-10 sm:flex-row sm:items-center sm:justify-between">
-          <a href="#" aria-label="Vancouver Controller Repair — home">
-            <Logo />
-          </a>
-          <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs font-semibold text-[#6e706a]">
-            <a className="hover:text-black" href="#controllers">
-              Controllers
-            </a>
-            <a className="hover:text-black" href="#joysticks">
-              Joystick Types
-            </a>
-            <a className="hover:text-black" href="#choose">
-              Repair Options
-            </a>
-            <a className="hover:text-black" href="#contact">
-              Contact
-            </a>
-          </div>
-          <p className="text-xs text-[#969891]">
-            Part of Zverchyk Tech
-          </p>
-        </div>
-      </footer>
+      <SiteFooter />
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import { createClient, type SanityClient } from "@sanity/client";
+import { dateStamp } from "@/lib/dates";
 import {
   joystickTypes,
   type JoystickKey,
@@ -57,6 +58,9 @@ export type StoredFeedback = {
   name: string;
   repair?: string;
   rating?: number;
+  format?: "text" | "screenshot";
+  shownOn?: string;
+  screenshot?: string;
   images: string[];
   createdAt: string;
 };
@@ -73,6 +77,7 @@ export type StoredGalleryImage = {
   id: string;
   url: string;
   createdAt: string;
+  takenOn?: string;
 };
 
 export type SiteContent = {
@@ -93,13 +98,14 @@ export async function fetchSiteContent(): Promise<SiteContent> {
 
   const data = await client(false).fetch<{
     feedback: Array<
-      Omit<StoredFeedback, "images" | "rating"> & {
+      Omit<StoredFeedback, "images" | "rating" | "screenshot"> & {
         images: (string | null)[];
         rating?: number | null;
+        screenshot?: string | null;
       }
     >;
     videos: StoredVideo[];
-    gallery: Array<{ id: string; url: string | null; createdAt: string }>;
+    gallery: Array<{ id: string; url: string | null; createdAt: string; takenOn?: string | null }>;
   }>(
     `{
       "feedback": *[_type == "testimonial" && (!defined(status) || status == "approved")] | order(_createdAt desc) {
@@ -108,6 +114,9 @@ export async function fetchSiteContent(): Promise<SiteContent> {
         name,
         repair,
         rating,
+        format,
+        shownOn,
+        "screenshot": screenshot.asset->url,
         "createdAt": _createdAt,
         "images": images[].asset->url
       },
@@ -118,9 +127,10 @@ export async function fetchSiteContent(): Promise<SiteContent> {
         category,
         "createdAt": _createdAt
       },
-      "gallery": *[_type == "galleryImage" && defined(image)] | order(_createdAt desc) {
+      "gallery": *[_type == "galleryImage" && defined(image)] {
         "id": _id,
         "url": image.asset->url,
+        takenOn,
         "createdAt": _createdAt
       }
     }`,
@@ -130,10 +140,17 @@ export async function fetchSiteContent(): Promise<SiteContent> {
 
   return {
     feedback: (data?.feedback ?? [])
-      .filter((row) => row.quote && row.name)
+      .filter((row) =>
+        row.format === "screenshot" ? Boolean(row.screenshot) : Boolean(row.quote && row.name),
+      )
       .map((row) => ({
         ...row,
+        quote: row.quote ?? "",
+        name: row.name ?? "",
+        format: row.format === "screenshot" ? ("screenshot" as const) : ("text" as const),
         repair: row.repair || undefined,
+        shownOn: row.shownOn || undefined,
+        screenshot: sized(row.screenshot, 1600) ?? undefined,
         rating:
           typeof row.rating === "number" && row.rating >= 1 && row.rating <= 5
             ? Math.round(row.rating)
@@ -146,7 +163,15 @@ export async function fetchSiteContent(): Promise<SiteContent> {
       (row) => row.url && isJoystickKey(row.category),
     ),
     gallery: (data?.gallery ?? [])
-      .map((row) => ({ ...row, url: sized(row.url, 1600) }))
-      .filter((row): row is StoredGalleryImage => Boolean(row.url)),
+      .map((row) => ({
+        ...row,
+        url: sized(row.url, 1600) ?? "",
+        takenOn: row.takenOn || undefined,
+      }))
+      .filter((row) => row.url.length > 0)
+      .sort(
+        (a, b) =>
+          dateStamp(b.takenOn || b.createdAt) - dateStamp(a.takenOn || a.createdAt),
+      ),
   };
 }

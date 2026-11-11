@@ -2,7 +2,15 @@ import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { requireSanity, requireSignIn } from "@/lib/admin-api";
+import { isDateOnly } from "@/lib/dates";
+import { vancouverToday } from "@/lib/feedback-invite";
 import { writeClient } from "@/lib/sanity";
+
+function dateError(value: string) {
+  if (!isDateOnly(value)) return "Add a real date.";
+  if (value > vancouverToday()) return "The date can't be in the future.";
+  return null;
+}
 
 const MAX_IMAGE_BYTES = 8 * 1024 * 1024;
 const MAX_IMAGES = 12;
@@ -42,6 +50,12 @@ export async function POST(request: Request) {
     }
   }
 
+  const takenOn = String(form.get("takenOn") || vancouverToday());
+  const invalidDate = dateError(takenOn);
+  if (invalidDate) {
+    return NextResponse.json({ error: invalidDate }, { status: 400 });
+  }
+
   const unavailable = requireSanity();
   if (unavailable) return unavailable;
 
@@ -56,6 +70,7 @@ export async function POST(request: Request) {
       );
       await client.create({
         _type: "galleryImage",
+        takenOn,
         image: {
           _type: "image",
           _key: randomUUID(),
@@ -70,6 +85,51 @@ export async function POST(request: Request) {
     console.error("Sanity gallery upload failed:", error);
     return NextResponse.json(
       { error: "Could not save those photos." },
+      { status: 502 },
+    );
+  }
+}
+
+export async function PATCH(request: Request) {
+  const signedOut = await requireSignIn();
+  if (signedOut) return signedOut;
+
+  const unavailable = requireSanity();
+  if (unavailable) return unavailable;
+
+  const body = (await request.json().catch(() => null)) as {
+    id?: string;
+    takenOn?: string;
+  } | null;
+  const id = body?.id ?? "";
+  const takenOn = body?.takenOn ?? "";
+
+  if (!id) {
+    return NextResponse.json({ error: "Missing photo id." }, { status: 400 });
+  }
+
+  const invalidDate = dateError(takenOn);
+  if (invalidDate) {
+    return NextResponse.json({ error: invalidDate }, { status: 400 });
+  }
+
+  try {
+    const client = writeClient();
+    const existing = await client.fetch<string | null>(
+      `*[_id == $id && _type == "galleryImage"][0]._id`,
+      { id } as never,
+    );
+    if (!existing) {
+      return NextResponse.json({ error: "That photo was not found." }, { status: 404 });
+    }
+
+    await client.patch(id).set({ takenOn }).commit();
+    revalidatePath("/");
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("Sanity gallery date update failed:", error);
+    return NextResponse.json(
+      { error: "Could not update that date." },
       { status: 502 },
     );
   }

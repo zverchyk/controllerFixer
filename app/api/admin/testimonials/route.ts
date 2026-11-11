@@ -2,7 +2,9 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { requireSanity, requireSignIn } from "@/lib/admin-api";
+import { isDateOnly } from "@/lib/dates";
 import { deleteRequestForTestimonial } from "@/lib/feedback-requests";
+import { vancouverToday } from "@/lib/feedback-invite";
 import { uploadFormImages } from "@/lib/sanity-images";
 import { writeClient } from "@/lib/sanity";
 
@@ -10,7 +12,15 @@ const fields = z.object({
   quote: z.string().trim().min(10, "Feedback needs at least 10 characters").max(800),
   name: z.string().trim().min(2, "Add the customer's name").max(60),
   repair: z.string().trim().max(80).optional(),
+  shownOn: z.string().trim().optional(),
 });
+
+function dateError(value: string | undefined) {
+  if (!value) return null;
+  if (!isDateOnly(value)) return "Add a real date.";
+  if (value > vancouverToday()) return "The date can't be in the future.";
+  return null;
+}
 
 async function readImages(form: FormData) {
   return uploadFormImages(form);
@@ -21,6 +31,7 @@ function readFields(form: FormData) {
     quote: form.get("quote"),
     name: form.get("name"),
     repair: form.get("repair") || undefined,
+    shownOn: form.get("shownOn") || undefined,
   });
 }
 
@@ -38,6 +49,11 @@ export async function POST(request: Request) {
     );
   }
 
+  const invalidDate = dateError(parsed.data.shownOn);
+  if (invalidDate) {
+    return NextResponse.json({ error: invalidDate }, { status: 400 });
+  }
+
   const unavailable = requireSanity();
   if (unavailable) return unavailable;
 
@@ -50,6 +66,8 @@ export async function POST(request: Request) {
     await writeClient().create({
       _type: "testimonial",
       ...parsed.data,
+      format: "text",
+      shownOn: parsed.data.shownOn || vancouverToday(),
       repair: parsed.data.repair ?? "",
       images: uploaded.images,
     });
@@ -85,6 +103,11 @@ export async function PATCH(request: Request) {
     );
   }
 
+  const invalidDate = dateError(parsed.data.shownOn);
+  if (invalidDate) {
+    return NextResponse.json({ error: invalidDate }, { status: 400 });
+  }
+
   const unavailable = requireSanity();
   if (unavailable) return unavailable;
 
@@ -98,6 +121,7 @@ export async function PATCH(request: Request) {
       .patch(id)
       .set({
         ...parsed.data,
+        shownOn: parsed.data.shownOn || vancouverToday(),
         repair: parsed.data.repair ?? "",
         // New photos replace the set. Leaving the picker empty keeps the old ones.
         ...(uploaded.images && uploaded.images.length > 0

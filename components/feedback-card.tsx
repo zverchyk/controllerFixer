@@ -80,7 +80,12 @@ function AvatarTop({ testimonial }: { testimonial: Testimonial }) {
           rounded="rounded-full"
         />
         <div>
-          <p className="text-sm font-bold">{testimonial.name}</p>
+          <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-[#9a9c95]">{testimonial.date}</span>
+            ) : null}
+          </p>
           <p className="mt-1 text-xs text-[#777a73]">{testimonial.repair}</p>
         </div>
       </div>
@@ -102,7 +107,12 @@ function PhotoLeft({ testimonial }: { testimonial: Testimonial }) {
           “{testimonial.quote}”
         </blockquote>
         <figcaption className="mt-auto pt-5">
-          <p className="text-sm font-bold">{testimonial.name}</p>
+          <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-[#9a9c95]">{testimonial.date}</span>
+            ) : null}
+          </p>
           <p className="mt-1 text-xs text-[#777a73]">{testimonial.repair}</p>
         </figcaption>
       </div>
@@ -120,7 +130,12 @@ function PhotoBanner({ testimonial }: { testimonial: Testimonial }) {
           “{testimonial.quote}”
         </blockquote>
         <figcaption className="mt-auto border-t border-[#e3e4df] pt-5">
-          <p className="text-sm font-bold">{testimonial.name}</p>
+          <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-[#9a9c95]">{testimonial.date}</span>
+            ) : null}
+          </p>
           <p className="mt-1 text-xs text-[#777a73]">{testimonial.repair}</p>
         </figcaption>
       </div>
@@ -144,7 +159,12 @@ function PhotoOverlay({ testimonial }: { testimonial: Testimonial }) {
         </blockquote>
         <figcaption className="mt-6 flex items-center justify-between border-t border-white/15 pt-5">
           <div>
-            <p className="text-sm font-bold">{testimonial.name}</p>
+            <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-white/50">{testimonial.date}</span>
+            ) : null}
+          </p>
             <p className="mt-1 text-xs text-white/55">{testimonial.repair}</p>
           </div>
           <Stars rating={testimonial.rating} className="text-[#b6ff2e]" />
@@ -171,7 +191,12 @@ function PhotoFooter({ testimonial }: { testimonial: Testimonial }) {
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d0b]/90 to-transparent" />
         <figcaption className="absolute inset-x-6 bottom-5 text-white">
-          <p className="text-sm font-bold">{testimonial.name}</p>
+          <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-white/55">{testimonial.date}</span>
+            ) : null}
+          </p>
           <p className="mt-1 text-xs text-white/65">{testimonial.repair}</p>
         </figcaption>
       </div>
@@ -198,7 +223,12 @@ function PhotoThumb({ testimonial }: { testimonial: Testimonial }) {
           rounded="rounded-xl"
         />
         <div>
-          <p className="text-sm font-bold">{testimonial.name}</p>
+          <p className="text-sm font-bold">
+            {testimonial.name}
+            {testimonial.date ? (
+              <span className="ml-2 text-xs font-medium text-[#9a9c95]">{testimonial.date}</span>
+            ) : null}
+          </p>
           <p className="mt-1 text-xs text-[#777a73]">{testimonial.repair}</p>
         </div>
       </figcaption>

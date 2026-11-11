@@ -273,6 +273,11 @@ export function FeedbackRequestsPanel({
                     <p className="mt-1 text-sm text-[#5f615b]">
                       {item.controllerType} · {item.repair} · {item.repairDate}
                     </p>
+                    {item.displayName && item.displayName !== item.customerName ? (
+                      <p className="mt-1 text-xs text-[#8a8c85]">
+                        Review name: {item.displayName}
+                      </p>
+                    ) : null}
                     {item.quote ? (
                       <p className="mt-2 text-sm leading-6">
                         {item.rating ? `${item.rating}/5 · ` : ""}“{item.quote}”
