@@ -13,7 +13,7 @@ const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
 });
 
-const title = `${siteName} — Xbox & PS5 Stick Drift Repair`;
+const title = `${siteName} — Xbox, PS5 & PS4 Stick Drift Repair`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

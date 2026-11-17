@@ -46,13 +46,15 @@ export function ScreenshotLightbox({
         >
           <X className="size-5" />
         </button>
-        <div className="relative h-[min(78vh,820px)] w-full overflow-hidden rounded-2xl bg-[#1b1c18]">
+        <div className="overflow-hidden rounded-2xl bg-[#1b1c18]">
           <Image
             src={src}
             alt={name ? `Screenshot from ${name}` : "Customer screenshot"}
-            fill
+            width={1600}
+            height={1200}
             sizes="960px"
-            className="object-contain"
+            className="h-auto max-h-[min(78vh,820px)] w-full object-fill"
+            style={{ width: "100%", height: "auto" }}
           />
         </div>
         {name || date ? (

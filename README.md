@@ -1,6 +1,6 @@
 # Vancouver Controller Repair
 
-A one-page controller repair site for Xbox and PS5 controllers, built with
+A one-page controller repair site for Xbox, PS5, and PS4 controllers, built with
 Next.js, TypeScript, Tailwind CSS, shadcn/ui primitives, Motion, React Hook
 Form, Zod, and Resend.
 

@@ -174,6 +174,8 @@ export function FeedbackRequestsPanel({
             />
             <datalist id="controller-types">
               <option value="PlayStation 5" />
+              <option value="PlayStation 4" />
+              <option value="DualShock 4" />
               <option value="Xbox" />
               <option value="Xbox Elite" />
               <option value="DualSense Edge" />

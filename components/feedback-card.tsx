@@ -31,7 +31,7 @@ function Photo({
           alt={`${testimonial.name}'s repaired controller`}
           fill
           sizes="(max-width: 640px) 80vw, 470px"
-          className="object-cover"
+          className="object-fill"
         />
       ) : (
         <div
@@ -271,7 +271,7 @@ function ScreenshotBanner({
               alt=""
               fill
               sizes="(max-width: 640px) 78vw, 470px"
-              className="object-cover"
+              className="object-fill"
             />
           ) : null}
         </span>
