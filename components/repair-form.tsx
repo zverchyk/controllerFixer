@@ -6,22 +6,19 @@ import { ArrowRight, CheckCircle2, LoaderCircle } from "lucide-react";
 import { Turnstile } from "react-turnstile";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { dollars, hallEffectPrice, tmrPrice } from "@/lib/prices";
 import {
+  controllerOptions,
+  hallEffectService,
+  ps4Controller,
   repairRequestSchema,
+  servicesForController,
   type RepairRequest,
 } from "@/lib/repair-schema";
 
-const controllers = [
-  "Xbox Series X|S",
-  "Xbox One",
-  "Xbox Elite",
-  "PS5 DualSense",
-  "PS5 DualSense Edge",
-] as const;
-
 const services = [
-  { value: "Hall Effect joystick", label: "Hall Effect joystick — $30" },
-  { value: "TMR joystick", label: "TMR joystick — $45" },
+  { value: "Hall Effect joystick", label: `Hall Effect joystick — ${dollars(hallEffectPrice)}` },
+  { value: "TMR joystick", label: `TMR joystick — ${dollars(tmrPrice)}` },
   { value: "Buttons", label: "Buttons" },
   { value: "Triggers / bumpers", label: "Triggers / bumpers" },
   { value: "USB-C / charging", label: "USB-C / charging" },
@@ -40,6 +37,7 @@ export function RepairForm() {
     handleSubmit,
     setValue,
     reset,
+    getValues,
     formState: { errors, isSubmitting },
   } = useForm<RepairRequest>({
     resolver: zodResolver(repairRequestSchema),
@@ -50,6 +48,11 @@ export function RepairForm() {
       turnstileToken: "",
     },
   });
+
+  const [controller, setController] = useState<RepairRequest["controller"]>("Xbox Series X|S");
+  const ps4 = controller === ps4Controller;
+  const available = new Set(servicesForController(controller));
+  const visibleServices = services.filter((item) => available.has(item.value));
 
   async function onSubmit(data: RepairRequest) {
     setServerError("");
@@ -72,6 +75,7 @@ export function RepairForm() {
     }
 
     reset();
+    setController("Xbox Series X|S");
     setSubmitted(true);
   }
 
@@ -129,9 +133,20 @@ export function RepairForm() {
           <span className="mb-1 block text-xs font-bold uppercase tracking-[0.1em] text-[#5f615b]">
             Controller
           </span>
-          <select className="field appearance-none" {...register("controller")}>
-            {controllers.map((controller) => (
-              <option key={controller}>{controller}</option>
+          <select
+            className="field appearance-none"
+            {...register("controller", {
+              onChange: (event) => {
+                const next = event.target.value as RepairRequest["controller"];
+                setController(next);
+                if (next === ps4Controller && getValues("service") === "TMR joystick") {
+                  setValue("service", hallEffectService);
+                }
+              },
+            })}
+          >
+            {controllerOptions.map((option) => (
+              <option key={option}>{option}</option>
             ))}
           </select>
           {errorText(errors.controller?.message)}
@@ -141,12 +156,17 @@ export function RepairForm() {
             What needs fixing?
           </span>
           <select className="field appearance-none" {...register("service")}>
-            {services.map((service) => (
-              <option key={service.value} value={service.value}>
-                {service.label}
+            {visibleServices.map((item) => (
+              <option key={item.value} value={item.value}>
+                {item.label}
               </option>
             ))}
           </select>
+          {ps4 ? (
+            <p className="mt-1 text-xs leading-4 text-[#777a73]">
+              PS4 stick repairs use Hall Effect joysticks.
+            </p>
+          ) : null}
           {errorText(errors.service?.message)}
         </label>
         <label className="block sm:col-span-2">

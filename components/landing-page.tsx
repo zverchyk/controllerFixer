@@ -25,6 +25,7 @@ import { YouTubeEmbed } from "@/components/youtube-embed";
 import { RepairForm } from "@/components/repair-form";
 import { Button } from "@/components/ui/button";
 import { formatDisplayDate } from "@/lib/dates";
+import { dollars, hallEffectPrice, tmrPrice } from "@/lib/prices";
 import { joystickTypes, parseYouTubeId } from "@/lib/joysticks";
 import { testimonials as fallbackTestimonials } from "@/lib/testimonials";
 import type { SiteContent, StoredVideo } from "@/lib/sanity";
@@ -36,16 +37,29 @@ const controllerFamilies = [
   {
     label: "Xbox",
     models: ["Series X|S", "Xbox One", "Elite Series 1 & 2"],
-    dark: false,
+    note: "",
+    className: "bg-[#e7f6da]",
+    pill: "bg-white text-[#171815]",
     image: "/options/xbox.jpg",
     imageAlt: "Xbox controller",
   },
   {
     label: "PlayStation 5",
     models: ["DualSense", "DualSense Edge"],
-    dark: true,
+    note: "",
+    className: "bg-[#7256ec] text-white",
+    pill: "bg-white/15",
     image: "/options/ps5.jpg",
     imageAlt: "PlayStation 5 DualSense controller",
+  },
+  {
+    label: "PlayStation 4",
+    models: ["DualShock 4"],
+    note: "Hall Effect joysticks only",
+    className: "bg-[#123a78] text-white",
+    pill: "bg-white/15",
+    image: "/options/ps4.jpg",
+    imageAlt: "PlayStation 4 DualShock 4 controller",
   },
 ];
 
@@ -210,8 +224,8 @@ export function LandingPage({
               Vancouver · Same-day service
             </div>
             <p className="mt-4 max-w-xl text-base leading-7 text-white/60">
-              Same-day fix for Xbox and PS5 controllers. Hall Effect joysticks
-              for $30, TMR for $45.
+              Same-day fix for Xbox, PS5, and PS4 controllers. Hall Effect
+              joysticks for {dollars(hallEffectPrice)}, TMR for {dollars(tmrPrice)}.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Button asChild size="lg">
@@ -250,10 +264,10 @@ export function LandingPage({
             <div className="flex w-full items-center justify-between gap-4 border-t border-black/15 pt-5">
               <div>
                 <p className="font-display text-3xl font-bold tracking-[-0.05em]">
-                  FROM $30
+                  FROM {dollars(hallEffectPrice)}
                 </p>
                 <p className="mt-1 text-xs font-semibold opacity-55">
-                  Hall Effect $30 · TMR $45
+                  Hall Effect {dollars(hallEffectPrice)} · TMR {dollars(tmrPrice)}
                 </p>
               </div>
               <ShieldCheck className="size-9" />
@@ -268,7 +282,7 @@ export function LandingPage({
             ["90 day", "repair warranty"],
             ["Same day", "most drift repairs"],
             ["100%", "bench tested"],
-            ["Xbox + PS5", "specialists"],
+            ["Xbox + PlayStation", "specialists"],
           ].map(([value, label]) => (
             <div key={label} className="px-3 py-6 text-center sm:py-8">
               <p className="font-display text-xl font-bold sm:text-2xl">{value}</p>
@@ -287,15 +301,17 @@ export function LandingPage({
             title="Xbox and PlayStation, same bench."
             copy="Drift, buttons, triggers, charging ports — we find the fault, replace only what needs replacing, and calibrate every input before it goes back in your hands."
           />
-          <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <div className="mt-10 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
             {controllerFamilies.map(
-              ({ label, models, dark, image, imageAlt }, index) => (
+              ({ label, models, note, className, pill, image, imageAlt }, index) => (
               <motion.div
                 key={label}
                 {...fadeUp}
                 transition={{ duration: 0.45, delay: index * 0.06 }}
-                className={`rounded-[2rem] p-7 sm:p-8 ${
-                  dark ? "bg-[#7256ec] text-white" : "bg-[#e7f6da]"
+                className={`rounded-[2rem] p-7 sm:p-8 ${className} ${
+                  index === controllerFamilies.length - 1
+                    ? "sm:col-span-2 xl:col-span-1"
+                    : ""
                 }`}
               >
                 <div className="flex items-start justify-between gap-4">
@@ -314,18 +330,19 @@ export function LandingPage({
                   {models.map((model) => (
                     <li
                       key={model}
-                      className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold ${
-                        dark ? "bg-white/15" : "bg-white"
-                      }`}
+                      className={`flex items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold ${pill}`}
                     >
                       <Check
-                        className={`size-3.5 ${dark ? "" : "text-[#55893a]"}`}
+                        className={`size-3.5 ${pill.includes("bg-white/15") ? "" : "text-[#55893a]"}`}
                         strokeWidth={3}
                       />
                       {model}
                     </li>
                   ))}
                 </ul>
+                {note ? (
+                  <p className="mt-4 text-sm font-semibold text-white/75">{note}</p>
+                ) : null}
               </motion.div>
             ))}
           </div>
@@ -408,7 +425,8 @@ export function LandingPage({
             <p className="mx-auto mt-5 max-w-2xl text-base leading-7 text-white/55">
               Both are contactless magnetic modules, so neither one wears out
               the way a stock stick does. Take the proven upgrade, or the newest
-              and most precise sensor.
+              and most precise sensor. PS4 DualShock 4 repairs use Hall Effect
+              joysticks.
             </p>
           </div>
 
@@ -436,7 +454,7 @@ export function LandingPage({
                         Hall Effect
                       </h3>
                       <p className="font-display shrink-0 text-4xl font-semibold leading-none tracking-[-0.06em] text-[#ff7175] sm:text-6xl">
-                        $30
+                        {dollars(hallEffectPrice)}
                       </p>
                     </div>
                     <p className="mt-2 text-sm text-white/55">
@@ -471,7 +489,7 @@ export function LandingPage({
                         TMR
                       </h3>
                       <p className="font-display shrink-0 text-4xl font-semibold leading-none tracking-[-0.06em] text-[#8da0ff] sm:text-6xl">
-                        $45
+                        {dollars(tmrPrice)}
                       </p>
                     </div>
                     <p className="mt-2 text-sm text-white/55">
